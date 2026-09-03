@@ -91,6 +91,20 @@ with
 Also still to fill in: the Facebook and Instagram links in the footer (`href="#"`),
 and the Google Business Profile / Facebook links on the Contact page.
 
+## Feedbucket review widget
+
+`<head>` on every page carries the Feedbucket widget, gated to the preview
+host so the client can leave feedback there:
+
+```js
+if (location.hostname === "oleary-holiday-lighting.pages.dev") { ... }
+```
+
+It does not load on `olearyholidaylighting.com`, on `localhost`, or on
+branch-preview subdomains — only on that exact host. Nothing to undo at
+launch, but the block can be deleted from `tools/build.py` (`FEEDBUCKET`)
+once review is finished.
+
 ## Design system
 
 Set in `:root` at the top of `css/site.css`, so a change there flows through

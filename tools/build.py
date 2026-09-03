@@ -234,6 +234,22 @@ def mobile_nav(active_nav, active_service):
     return "\n".join(out)
 
 
+# Feedbucket review widget. Gated to the Cloudflare Pages preview host so the
+# client can leave feedback there and it never loads on the live site. Remove
+# this block (and the {feedbucket} slot below) once review is finished.
+FEEDBUCKET = """<script>
+  /* Feedbucket review widget — preview host only, never the live site. */
+  if (location.hostname === "oleary-holiday-lighting.pages.dev") {
+    (function (k) {
+      var s = document.createElement("script");
+      s.defer = true;
+      s.src = "https://cdn.feedbucket.app/assets/feedbucket.js";
+      s.dataset.feedbucket = k;
+      document.head.appendChild(s);
+    })("kRWOaFJvMYHvpk1CEI79");
+  }
+</script>"""
+
 SHELL_HEAD = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -245,6 +261,7 @@ SHELL_HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&amp;family=Archivo:wght@400;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
+{feedbucket}
 </head>
 <body>
 
@@ -349,6 +366,7 @@ def build():
             SHELL_HEAD.format(
                 title=meta["title"],
                 description=meta["description"],
+                feedbucket=FEEDBUCKET,
                 desktop_nav=desktop_nav(meta.get("nav", ""), meta.get("service", "")),
                 mobile_nav=mobile_nav(meta.get("nav", ""), meta.get("service", "")),
             )
