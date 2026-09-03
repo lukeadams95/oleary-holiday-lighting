@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&amp;family=Archivo:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#E9E9E9;font-family:Archivo,sans-serif;}
+  a{color:#C8102E;text-decoration:none;}
+  a:hover{color:#8E0B20;}
+  .om-nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;}
+  @media (max-width:900px){
+    .om-nav-desktop{display:none !important;}
+    .om-nav-cta{display:none !important;}
+    .om-nav-burger{display:flex !important;align-items:center;}
+  }
+  @media (min-width:901px){
+    .om-nav-mobile-menu{display:none !important;}
+  }
+</style>
+</helmet>
+
+<div style="position:fixed;top:0;left:0;width:100%;z-index:50;">
+  <div style="width:1440px;transform:{{ innerTransform }};transform-origin:top left;">
+
+    <!-- HEADER -->
+    <div style="background:#FFFFFF;border-bottom:1px solid #EAE6E1;display:flex;align-items:stretch;padding:0 60px;height:88px;gap:40px;">
+      <div style="flex:0 0 auto;height:100%;padding:4px 0;box-sizing:border-box;">
+        <a href="OLeary Holiday Lighting Homepage.dc.html" style="display:block;height:100%;"><img src="assets/logo.webp" alt="O'Leary Holiday Lighting" style="height: 81px; width: 123px; object-fit: contain"></a>
+      </div>
+      <div class="om-nav-desktop" style="flex:1;display:flex;align-items:center;justify-content:center;gap:32px;font-size:20px;font-weight:600;">
+        <a href="OLeary Holiday Lighting Homepage.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Home</a>
+        <div style="position:relative;height:100%;display:flex;align-items:center;" onMouseEnter="{{ openServices }}" onMouseLeave="{{ closeServices }}">
+          <a href="Services.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Services</a>
+          <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#FFFFFF;border:1px solid #EAE6E1;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.12);padding:8px;display:flex;flex-direction:column;min-width:220px;opacity:{{ servicesDropdownOpacity }};visibility:{{ servicesDropdownVisibility }};transition:opacity 0.15s;">
+            <a href="Roofline Lighting.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Roofline Lighting</a>
+            <a href="Wreaths.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Wreaths</a>
+            <a href="Tree &amp; Bush Lighting.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Tree &amp; Bush Lighting</a>
+            <a href="Ground Lighting.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Ground Lighting</a>
+            <a href="Maintenance &amp; Storage.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Maintenance &amp; Storage</a>
+          </div>
+        </div>
+        <a href="About Us.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">About Us</a>
+        <span style="color:#C8102E;position:relative;padding-bottom:8px;" style-after="content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:#C8102E;">Reviews</span>
+        <a href="Service Areas.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Service Areas</a><a href="FAQ.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">FAQ</a><a href="Contact.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Contact</a>
+      </div>
+      <div class="om-nav-cta" style="display:flex;align-items:center;gap:20px;">
+        <a href="tel:9134371221" style="color:#1A1A1A;font-weight:600;font-size:16px;">(913) 437-1221</a>
+        <a href="Request a Quote.dc.html" style="background:#C8102E;color:#FFFFFF;border-radius:6px;padding:8px 18px;font-weight:600;font-size:15px;font-family:Archivo;" style-hover="background:#8E0B20;">Request a Quote</a>
+      </div>
+      <button class="om-nav-burger" onClick="{{ toggleMobile }}" aria-label="Menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="om-nav-mobile-menu" style="display:{{ mobileMenuDisplay }};flex-direction:column;position:absolute;top:88px;left:0;width:100%;background:#FFFFFF;border-bottom:1px solid #EAE6E1;padding:8px 24px 16px;box-shadow:0 8px 16px rgba(0,0,0,0.08);">
+      <a href="OLeary Holiday Lighting Homepage.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Home</a>
+      <a href="Services.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Services</a>
+      <a href="Roofline Lighting.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Roofline Lighting</a>
+      <a href="Wreaths.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Wreaths</a>
+      <a href="Tree &amp; Bush Lighting.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Tree &amp; Bush Lighting</a>
+      <a href="Ground Lighting.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Ground Lighting</a>
+      <a href="Maintenance &amp; Storage.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Maintenance &amp; Storage</a>
+      <a href="About Us.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">About Us</a>
+      <span style="padding:12px 10px;font-size:18px;font-weight:600;color:#C8102E;border-left:3px solid #C8102E;">Reviews</span>
+      <a href="Service Areas.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Service Areas</a>
+      <a href="FAQ.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">FAQ</a>
+      <a href="Contact.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Contact</a>
+    </div>
+  </div>
+</div>
+
+<div style="width:100%;height:{{ outerHeight }};clip-path:inset(0);">
+<div style="width:1440px;background:#FFFFFF;transform:{{ innerTransform }};transform-origin:top left;" ref="{{ innerRef }}">
+    <div style="height:88px;"></div>
+
+    <!-- HERO -->
+    <div style="position:relative;width:100%;height:420px;overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:url('assets/hero-house.webp');background-size:cover;background-position:center;"></div>
+      <div style="position:absolute;inset:0;background:rgba(14,20,32,0.55);"></div>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 120px;box-sizing:border-box;">
+      <h1 style="font-family:Bitter,serif;font-weight:700;font-size:56px;line-height:1.1;color:#FFFFFF;margin:0 0 16px;">Reviews</h1>
+      <p style="font-size:20px;line-height:1.5;color:#FFFFFF;opacity:0.85;margin:0;max-width:600px;">What Johnson County homeowners say about their install.</p>
+      </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div style="background:#FFFFFF;padding:112px 120px;">
+      <div style="display:flex;justify-content:center;align-items:center;gap:10px;margin-bottom:48px;">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg>
+        <span style="color:#1A1A1A;font-size:19px;font-weight:700;">5.0</span>
+        <span style="color:#C8102E;font-size:21px;">★★★★★</span>
+        <span style="color:#4A4A4A;font-size:16px;">44 reviews</span>
+        <a href="https://www.google.com/search?sca_esv=d777865217e22ae8&amp;sxsrf=APpeQnthfQNH0PeRcALQ8O2CAj6hvy6D5Q:1788441450674&amp;kgmid=/g/11zjq86n1s&amp;q=O%27Leary+Holiday+Lighting,+LLC&amp;shem=dlvs1,epsd1,ltae,rimspwouoe&amp;shndl=30&amp;source=sh/x/loc/uni/m1/3&amp;kgs=c6fabfb8bf140b2b&amp;utm_source=dlvs1,epsd1,ltae,rimspwouoe,sh/x/loc/uni/m1/3" target="_blank" style="color:#C8102E;font-size:16px;font-weight:600;">Read all reviews on Google</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+        <div style="background:#FAF7F4;border:1px solid #EAE6E1;border-radius:12px;padding:28px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="color:#C8102E;font-size:21px;">★★★★★</span><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg></div>
+          <p style="font-size:17px;line-height:1.6;color:#1A1A1A;margin:0 0 16px;">"I can't recommend Tommy at O'Leary Holiday Lighting enough! We use him for our business and personal lighting. He's absolutely amazing—super responsive, professional, and does incredible work. Our Christmas lights look perfect every year, and he makes the whole process so easy and stress-free. 10/10 service!"</p>
+          <div style="font-size:16px;font-weight:600;color:#4A4A4A;">Maria Collins</div>
+        </div>
+        <div style="background:#FAF7F4;border:1px solid #EAE6E1;border-radius:12px;padding:28px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="color:#C8102E;font-size:21px;">★★★★★</span><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg></div>
+          <p style="font-size:17px;line-height:1.6;color:#1A1A1A;margin:0 0 16px;">"Tommy did a fantastic job of getting our home in the Holiday spirit last year. We are already on his schedule to get them up early this year. I would highly recommend O'Leary Holiday Lighting for your holiday outdoor lighting project."</p>
+          <div style="font-size:16px;font-weight:600;color:#4A4A4A;">John Forkner</div>
+        </div>
+        <div style="background:#FAF7F4;border:1px solid #EAE6E1;border-radius:12px;padding:28px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="color:#C8102E;font-size:21px;">★★★★★</span><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg></div>
+          <p style="font-size:17px;line-height:1.6;color:#1A1A1A;margin:0 0 16px;">"I can't say enough good things about this company! They make the whole process of putting up Christmas lights completely stress-free. Communication is always fast and easy, they get everything done quickly, and the results are absolutely beautiful every year. I love that they handle the storage, too."</p>
+          <div style="font-size:16px;font-weight:600;color:#4A4A4A;">Alexis Kelford</div>
+        </div>
+        <div style="background:#FAF7F4;border:1px solid #EAE6E1;border-radius:12px;padding:28px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="color:#C8102E;font-size:21px;">★★★★★</span><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg></div>
+          <p style="font-size:17px;line-height:1.6;color:#1A1A1A;margin:0 0 16px;">"Tommy has installed our Christmas lights for 3 years and does a fantastic job every Christmas! He operates his business professionally, provides consistent communication & is always timely in both the install and take down, plus the prices are very reasonable."</p>
+          <div style="font-size:16px;font-weight:600;color:#4A4A4A;">Lauren Greve</div>
+        </div>
+        <div style="background:#FAF7F4;border:1px solid #EAE6E1;border-radius:12px;padding:28px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="color:#C8102E;font-size:21px;">★★★★★</span><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg></div>
+          <p style="font-size:17px;line-height:1.6;color:#1A1A1A;margin:0 0 16px;">"Tommy did a great job installing our Christmas lights on the outside of our home, as well as decorating our trees. He was prompt, professional, and made sure we were satisfied with the installation before he left. We would highly recommend O'Leary to anyone looking for holiday lighting."</p>
+          <div style="font-size:16px;font-weight:600;color:#4A4A4A;">Todd Crescio</div>
+        </div>
+        <div style="background:#FAF7F4;border:1px solid #EAE6E1;border-radius:12px;padding:28px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="color:#C8102E;font-size:21px;">★★★★★</span><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg></div>
+          <p style="font-size:17px;line-height:1.6;color:#1A1A1A;margin:0 0 16px;">"We absolutely love O'Leary Holiday Lighting! They help bring the holidays to life around our house. They are professional, friendly & do a wonderful job! Thank you for being a part of our holiday tradition!"</p>
+          <div style="font-size:16px;font-weight:600;color:#4A4A4A;">Elizabeth Duroche</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA BANNER -->
+    <div style="position:relative;height:420px;background:#0E1420;box-sizing:border-box;border-top:4px solid #C8102E;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:url('assets/cta-house-lit.webp');background-size:cover;background-position:center;"></div>
+      <div style="position:absolute;inset:0;background:#0E1420;opacity:0.65;"></div>
+      <div style="position:relative;max-width:800px;padding:0 24px;text-align:center;">
+        <h2 style="font-family:Bitter,serif;font-weight:700;font-size:40px;color:#FFFFFF;margin:0 0 16px;line-height:1.15;">
+          Ready to see your house lit up?
+          
+        </h2>
+        <p style="font-family:Archivo,sans-serif;font-size:21px;color:#FFFFFF;opacity:0.85;margin:0 0 36px;font-weight:700;">Free on-site quote. Booking now for the 2026 season.</p>
+        <div style="display:flex;justify-content:center;gap:24px;margin-bottom:24px;">
+          <button style="height:56px;padding:0 32px;border-radius:8px;background:#C8102E;color:#FFFFFF;border:none;font-weight:600;font-size:18px;font-family:Archivo;cursor:pointer;" style-hover="background:#8E0B20;">Request a Free Quote</button>
+          <button style="height:56px;padding:0 32px;border-radius:8px;background:transparent;color:#FFFFFF;border:2px solid #FFFFFF;font-weight:600;font-size:18px;font-family:Archivo;cursor:pointer;" style-hover="background:rgba(255,255,255,0.1);">Call (913) 437-1221</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="background:#FFFFFF;padding:64px 120px 32px;border-top:1px solid #EAE6E1;">
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;">
+        <div>
+          <img src="assets/logo.webp" alt="O'Leary Holiday Lighting" style="height:110px;width:auto;object-fit:contain;">
+          <p style="color:#4A4A4A;font-size:16px;line-height:1.6;margin:16px 0 0;max-width:240px;">Custom Christmas light installation for Johnson County, Kansas.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;">
+            <a href="tel:9134371221" style="color:#1A1A1A;font-size:16px;">(913) 437-1221</a>
+            <a href="mailto:olearylighting@gmail.com" style="color:#1A1A1A;font-size:16px;">olearylighting@gmail.com</a>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:20px;">
+            <a href="#" style="width:36px;height:36px;border:1px solid #EAE6E1;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1A1A1A;font-size:16px;font-weight:700;">f</a>
+            <a href="#" style="width:36px;height:36px;border:1px solid #EAE6E1;border-radius:6px;display:flex;align-items:center;justify-content:center;"><span style="width:16px;height:16px;border:2px solid #1A1A1A;border-radius:4px;position:relative;"><span style="width:6px;height:6px;background:#1A1A1A;border-radius:50%;position:absolute;top:3px;left:3px;"></span></span></a>
+          </div>
+        </div>
+        <div>
+          <div style="color:#1A1A1A;font-weight:700;font-size:16px;letter-spacing:0.5px;margin-bottom:16px;">SERVICES</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Roofline Lighting</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Wreaths</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Tree &amp; Bush Lighting</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Ground Lighting</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Maintenance &amp; Storage</a>
+          </div>
+        </div>
+        <div>
+          <div style="color:#1A1A1A;font-weight:700;font-size:16px;letter-spacing:0.5px;margin-bottom:16px;">COMPANY</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#" style="color:#4A4A4A;font-size:16px;">About Us</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Reviews</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">FAQ</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Contact</a>
+          </div>
+        </div>
+        <div>
+          <div style="color:#1A1A1A;font-weight:700;font-size:16px;letter-spacing:0.5px;margin-bottom:16px;">SERVICE AREAS</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Overland Park</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Olathe</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Leawood</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Lenexa</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #EAE6E1;margin-top:48px;padding-top:24px;display:flex;justify-content:space-between;color:#4A4A4A;font-size:15px;">
+        <span>© 2026 O'Leary Holiday Lighting LLC · Overland Park, KS</span>
+        <a href="Privacy Policy.dc.html" style="color:#4A4A4A;">Privacy Policy</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { scale: 1, height: 0, servicesOpen: false, mobileOpen: false };
+  innerRef = React.createRef();
+
+  openServices = () => this.setState({ servicesOpen: true });
+  closeServices = () => this.setState({ servicesOpen: false });
+  toggleMobile = () => this.setState(s => ({ mobileOpen: !s.mobileOpen }));
+
+  measure = () => {
+    const el = this.innerRef.current;
+    if (!el) return;
+    const scale = Math.min(1, window.innerWidth / 1440);
+    const h = el.scrollHeight;
+    this.setState({ scale, height: h * scale });
+  };
+
+  componentDidMount() {
+    this.measure();
+    window.addEventListener('resize', this.measure);
+    this.ro = new ResizeObserver(this.measure);
+    if (this.innerRef.current) this.ro.observe(this.innerRef.current);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.measure);
+    if (this.ro) this.ro.disconnect();
+  }
+
+  renderVals() {
+    return {
+      innerRef: this.innerRef,
+      innerTransform: `scale(${this.state.scale})`,
+      outerHeight: this.state.height ? `${this.state.height}px` : 'auto',
+      openServices: this.openServices,
+      closeServices: this.closeServices,
+      servicesDropdownOpacity: this.state.servicesOpen ? 1 : 0,
+      servicesDropdownVisibility: this.state.servicesOpen ? 'visible' : 'hidden',
+      toggleMobile: this.toggleMobile,
+      mobileMenuDisplay: this.state.mobileOpen ? 'flex' : 'none',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

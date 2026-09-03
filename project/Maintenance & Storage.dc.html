@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&amp;family=Archivo:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#E9E9E9;font-family:Archivo,sans-serif;}
+  a{color:#C8102E;text-decoration:none;}
+  a:hover{color:#8E0B20;}
+  .om-nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;}
+  @media (max-width:900px){
+    .om-nav-desktop{display:none !important;}
+    .om-nav-cta{display:none !important;}
+    .om-nav-burger{display:flex !important;align-items:center;}
+  }
+  @media (min-width:901px){
+    .om-nav-mobile-menu{display:none !important;}
+  }
+</style>
+</helmet>
+
+<div style="position:fixed;top:0;left:0;width:100%;z-index:50;">
+  <div style="width:1440px;transform:{{ innerTransform }};transform-origin:top left;">
+
+    <!-- HEADER -->
+    <div style="background:#FFFFFF;border-bottom:1px solid #EAE6E1;display:flex;align-items:stretch;padding:0 60px;height:88px;gap:40px;">
+      <div style="flex:0 0 auto;height:100%;padding:4px 0;box-sizing:border-box;">
+        <a href="OLeary Holiday Lighting Homepage.dc.html" style="display:block;height:100%;"><img src="assets/logo.webp" alt="O'Leary Holiday Lighting" style="height: 81px; width: 123px; object-fit: contain"></a>
+      </div>
+      <div class="om-nav-desktop" style="flex:1;display:flex;align-items:center;justify-content:center;gap:32px;font-size:20px;font-weight:600;">
+        <a href="OLeary Holiday Lighting Homepage.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Home</a>
+        <div style="position:relative;height:100%;display:flex;align-items:center;" onMouseEnter="{{ openServices }}" onMouseLeave="{{ closeServices }}">
+          <a href="Services.dc.html" style="color:#C8102E;position:relative;padding-bottom:8px;" style-after="content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:#C8102E;">Services</a>
+          <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#FFFFFF;border:1px solid #EAE6E1;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.12);padding:8px;display:flex;flex-direction:column;min-width:220px;opacity:{{ servicesDropdownOpacity }};visibility:{{ servicesDropdownVisibility }};transition:opacity 0.15s;">
+            <a href="Roofline Lighting.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Roofline Lighting</a>
+            <a href="Wreaths.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Wreaths</a>
+            <a href="Tree &amp; Bush Lighting.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Tree &amp; Bush Lighting</a>
+            <a href="Ground Lighting.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#1A1A1A;" style-hover="color:#C8102E;background:#FAF7F4;">Ground Lighting</a>
+            <a href="Maintenance &amp; Storage.dc.html" style="padding:10px 14px;border-radius:6px;font-size:17px;color:#C8102E;background:#FAF7F4;">Maintenance &amp; Storage</a>
+          </div>
+        </div>
+        <a href="About Us.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">About Us</a><a href="Reviews.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Reviews</a><a href="Service Areas.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Service Areas</a><a href="FAQ.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">FAQ</a><a href="Contact.dc.html" style="color:#1A1A1A;" style-hover="color:#C8102E;">Contact</a>
+      </div>
+      <div class="om-nav-cta" style="display:flex;align-items:center;gap:20px;">
+        <a href="tel:9134371221" style="color:#1A1A1A;font-weight:600;font-size:16px;">(913) 437-1221</a>
+        <a href="Request a Quote.dc.html" style="background:#C8102E;color:#FFFFFF;border-radius:6px;padding:8px 18px;font-weight:600;font-size:15px;font-family:Archivo;" style-hover="background:#8E0B20;">Request a Quote</a>
+      </div>
+      <button class="om-nav-burger" onClick="{{ toggleMobile }}" aria-label="Menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="om-nav-mobile-menu" style="display:{{ mobileMenuDisplay }};flex-direction:column;position:absolute;top:88px;left:0;width:100%;background:#FFFFFF;border-bottom:1px solid #EAE6E1;padding:8px 24px 16px;box-shadow:0 8px 16px rgba(0,0,0,0.08);">
+      <a href="OLeary Holiday Lighting Homepage.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Home</a>
+      <a href="Services.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#C8102E;border-left:3px solid #C8102E;">Services</a>
+      <a href="Roofline Lighting.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Roofline Lighting</a>
+      <a href="Wreaths.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Wreaths</a>
+      <a href="Tree &amp; Bush Lighting.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Tree &amp; Bush Lighting</a>
+      <a href="Ground Lighting.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Ground Lighting</a>
+      <a href="Maintenance &amp; Storage.dc.html" style="padding:12px 10px 12px 26px;font-size:16px;font-weight:600;color:#C8102E;border-left:3px solid #C8102E;">Maintenance &amp; Storage</a>
+      <a href="About Us.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">About Us</a>
+      <a href="Reviews.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Reviews</a>
+      <a href="Service Areas.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Service Areas</a>
+      <a href="FAQ.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">FAQ</a>
+      <a href="Contact.dc.html" style="padding:12px 10px;font-size:18px;font-weight:600;color:#1A1A1A;border-left:3px solid transparent;">Contact</a>
+    </div>
+  </div>
+</div>
+
+<div style="width:100%;height:{{ outerHeight }};clip-path:inset(0);">
+<div style="width:1440px;background:#FFFFFF;transform:{{ innerTransform }};transform-origin:top left;" ref="{{ innerRef }}">
+    <div style="height:88px;"></div>
+
+    <!-- HERO -->
+    <div style="position:relative;width:100%;height:420px;overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:url('assets/maintenance-hero.webp');background-size:cover;background-position:center;"></div>
+      <div style="position:absolute;inset:0;background:rgba(14,20,32,0.55);"></div>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 120px;box-sizing:border-box;">
+        <h1 style="font-family:Bitter,serif;font-weight:700;font-size:56px;line-height:1.1;color:#FFFFFF;margin:0 0 24px;max-width:900px;">Christmas Light Maintenance, Takedown &amp; Storage in Kansas City</h1>
+        <p style="font-size:20px;line-height:1.5;color:#FFFFFF;opacity:0.92;margin:0 0 32px;max-width:700px;text-shadow:0 0 14px rgba(255,255,255,0.5);">Included with every install. We keep the lights running all season, pull them down in January, and store them until next year.</p>
+        <div style="display:flex;gap:16px;">
+          <button style="height:56px;background:#C8102E;color:#FFFFFF;border:none;border-radius:8px;padding:0 32px;font-weight:600;font-size:16px;font-family:Archivo;cursor:pointer;" style-hover="background:#8E0B20;">Request a Free Quote</button>
+          <button style="height:56px;background:transparent;color:#FFFFFF;border:2px solid #FFFFFF;border-radius:8px;padding:0 32px;font-weight:600;font-size:16px;font-family:Archivo;cursor:pointer;" style-hover="background:rgba(255,255,255,0.15);">Call (913) 437-1221</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUST BAR -->
+    <div style="width:100%;background:#C8102E;padding:22px 60px;display:flex;justify-content:center;align-items:center;gap:36px;flex-wrap:wrap;box-sizing:border-box;">
+      <div style="display:flex;align-items:center;gap:10px;color:#FFFFFF;font-weight:700;font-size:17px;letter-spacing:0.02em;text-transform:uppercase;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+        <span>Firefighter Owned</span>
+      </div>
+      <div style="width:1px;height:20px;background:rgba(255,255,255,0.4);"></div>
+      <div style="display:flex;align-items:center;gap:10px;color:#FFFFFF;font-weight:700;font-size:17px;letter-spacing:0.02em;text-transform:uppercase;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"></path><path d="M9 12l2 2 4-4"></path></svg>
+        <span>Award-Winning</span>
+      </div>
+      <div style="width:1px;height:20px;background:rgba(255,255,255,0.4);"></div>
+      <div style="display:flex;align-items:center;gap:10px;color:#FFFFFF;font-weight:700;font-size:17px;letter-spacing:0.02em;text-transform:uppercase;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>
+        <span>Christmas Lights Only</span>
+      </div>
+      <div style="width:1px;height:20px;background:rgba(255,255,255,0.4);"></div>
+      <div style="display:flex;align-items:center;gap:10px;color:#FFFFFF;font-weight:700;font-size:17px;letter-spacing:0.02em;text-transform:uppercase;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C.9 8.5 2 5 5.5 5c2 0 3.5 1.3 4.5 2.8C11 6.3 12.5 5 14.5 5 18 5 19.1 8.5 21.5 12c-2.5 4.5-9.5 9-9.5 9z"></path></svg>
+        <span>Serving Johnson County</span>
+      </div>
+    </div>
+
+    <!-- INTRO -->
+    <div style="background:#FFFFFF;padding:130px 120px;text-align:center;">
+      <h2 style="font-family:Bitter,serif;font-weight:700;font-size:40px;line-height:1.15;color:#C8102E;margin:0 0 24px;">Still on your roof in January.</h2>
+      <p style="font-size:20px;line-height:1.7;color:#4A4A4A;max-width:760px;margin:0 auto;">This is the part that separates us from a company doing Christmas lights to get through the winter. Most of them are back on landscaping or gutters by January. We're still on your roof taking lights down — and it costs you nothing extra, because it was in the price from the start.</p>
+    </div>
+
+    <!-- SEASON-LONG MAINTENANCE -->
+    <div style="background:#E95259;padding:96px 120px;text-align:center;">
+      <h2 style="font-family:Bitter,serif;font-weight:700;font-size:40px;line-height:1.15;color:#FFFFFF;margin:0 0 24px;">Season-long maintenance.</h2>
+      <p style="font-size:20px;line-height:1.7;color:#FFFFFF;opacity:0.9;max-width:760px;margin:0 auto;">A strand goes dark, a clip lets go, wind knocks a wreath crooked — call us and we come fix it, usually next day. No trip charge, no per-visit fee, no argument about whether it's covered. It's our equipment on your house, so keeping it lit is our job.</p>
+    </div>
+
+    <!-- TAKEDOWN -->
+    <div style="background:#FFFFFF;display:grid;grid-template-columns:1.1fr 0.9fr;gap:32px;padding:130px 120px;align-items:center;">
+      <div>
+        <h2 style="font-family:Bitter,serif;font-weight:700;font-size:41px;color:#C8102E;margin:0 0 20px;line-height:1.15;">Takedown in January</h2>
+        <p style="font-size:19px;line-height:1.7;color:#4A4A4A;margin:0;max-width:520px;">We pull everything down — roofline, wreaths, trees, ground lighting — on our schedule, not yours. You don't need to be home. Nothing is left on the house, and the clips come off clean.</p>
+      </div>
+      <div style="position:relative;height:420px;border-radius:16px;overflow:visible;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+        <div style="position:absolute;inset:0;border-radius:16px;overflow:hidden;background-image:url('assets/takedown-january.webp');background-size:cover;background-position:center;"></div>
+        <span style="position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);background:#C8102E;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:15px;padding:10px 22px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Takedown</span>
+      </div>
+    </div>
+
+    <!-- STORAGE -->
+    <div style="background:#FAF7F4;display:grid;grid-template-columns:0.9fr 1.1fr;gap:32px;padding:130px 120px;align-items:center;">
+      <div style="position:relative;height:420px;border-radius:16px;overflow:visible;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+        <div style="position:absolute;inset:0;border-radius:16px;overflow:hidden;background-image:url('assets/storage-until-next-year.webp');background-size:cover;background-position:center;"></div>
+        <span style="position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);background:#C8102E;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:15px;padding:10px 22px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Storage</span>
+      </div>
+      <div>
+        <h2 style="font-family:Bitter,serif;font-weight:700;font-size:41px;color:#C8102E;margin:0 0 20px;line-height:1.15;">Storage until next year</h2>
+        <p style="font-size:19px;line-height:1.7;color:#4A4A4A;margin:0;max-width:520px;">Every strand comes back to our warehouse, gets checked, and is labeled to your house. Next season it goes back up exactly the same way. Nothing takes up a shelf in your garage, and nothing comes out of a bin tangled.</p>
+      </div>
+    </div>
+
+    <!-- WHY IT'S INCLUDED -->
+    <div style="background:#E95259;padding:96px 120px;text-align:center;">
+      <h2 style="font-family:Bitter,serif;font-weight:700;font-size:40px;line-height:1.15;color:#FFFFFF;margin:0 0 24px;">Why it's included, not an add-on.</h2>
+      <p style="font-size:20px;line-height:1.7;color:#FFFFFF;opacity:0.9;max-width:760px;margin:0 auto;">Because the lights are ours. You're not buying strands you have to store, replace, and re-hang — you're paying once for a season that starts with a design visit and ends with an empty garage.</p>
+    </div>
+
+    <!-- FAQ -->
+    <div style="background:#FFFFFF;padding:130px 120px;">
+      <h2 style="font-family:Bitter,serif;font-weight:700;font-size:40px;line-height:1.15;color:#C8102E;margin:0 0 48px;text-align:center;">
+        Common questions
+      </h2>
+      <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px;">
+        <div style="background:#FAF7F4;border-radius:12px;padding:28px 32px;">
+          <p style="font-size:19px;font-weight:700;color:#1A1A1A;margin:0 0 8px;">Is there an extra charge for repairs?</p>
+          <p style="font-size:17px;line-height:1.6;color:#4A4A4A;margin:0;">No.</p>
+        </div>
+        <div style="background:#FAF7F4;border-radius:12px;padding:28px 32px;">
+          <p style="font-size:19px;font-weight:700;color:#1A1A1A;margin:0 0 8px;">How fast do you come out?</p>
+          <p style="font-size:17px;line-height:1.6;color:#4A4A4A;margin:0;">Usually next day. [CLIENT TO CONFIRM — stated response time]</p>
+        </div>
+        <div style="background:#FAF7F4;border-radius:12px;padding:28px 32px;">
+          <p style="font-size:19px;font-weight:700;color:#1A1A1A;margin:0 0 8px;">When does takedown happen?</p>
+          <p style="font-size:17px;line-height:1.6;color:#4A4A4A;margin:0;">[CLIENT TO CONFIRM — start date and window]</p>
+        </div>
+        <div style="background:#FAF7F4;border-radius:12px;padding:28px 32px;">
+          <p style="font-size:19px;font-weight:700;color:#1A1A1A;margin:0 0 8px;">Do I need to be home?</p>
+          <p style="font-size:17px;line-height:1.6;color:#4A4A4A;margin:0;">No, for either takedown or repairs on the exterior.</p>
+        </div>
+        <div style="background:#FAF7F4;border-radius:12px;padding:28px 32px;">
+          <p style="font-size:19px;font-weight:700;color:#1A1A1A;margin:0 0 8px;">What if I don't rebook next year?</p>
+          <p style="font-size:17px;line-height:1.6;color:#4A4A4A;margin:0;">[CLIENT TO CONFIRM — what happens to stored materials]</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHERE WE WORK -->
+    <div style="background:#FAF7F4;padding:126px 120px;">
+      <h2 style="font-family:Bitter,serif;font-weight:700;font-size:40px;line-height:1.15;color:#C8102E;margin:0 0 40px;text-align:center;">
+        Where we work
+      </h2>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:40px;align-items:center;max-width:1100px;margin:0 auto;">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Overland Park</a>
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Olathe</a>
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Leawood</a>
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Stilwell</a>
+        </div>
+        <div style="position:relative;width:280px;height:420px;border-radius:16px;overflow:visible;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+          <div style="position:absolute;inset:0;border-radius:16px;overflow:hidden;background-image:url('assets/where-we-work-maintenance.webp');background-size:cover;background-position:center;"></div>
+          <span style="position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);background:#C8102E;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:15px;padding:10px 22px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Storage</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Lenexa</a>
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Prairie Village</a>
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Shawnee</a>
+          <a href="#" style="text-align:center;padding:14px;border:1px solid #EAE6E1;border-radius:8px;color:#1A1A1A;font-size:18px;font-weight:600;background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#C8102E;color:#C8102E;">Spring Hill</a>
+        </div>
+      </div>
+      <p style="font-size:15px;color:#4A4A4A;text-align:center;margin-top:20px;">and the rest of Johnson County. [CLIENT TO CONFIRM — final city list]</p>
+    </div>
+
+    <!-- CTA BANNER -->
+    <div style="position:relative;height:420px;background:#0E1420;box-sizing:border-box;border-top:4px solid #C8102E;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:url('assets/cta-house-lit.webp');background-size:cover;background-position:center;"></div>
+      <div style="position:absolute;inset:0;background:#0E1420;opacity:0.65;"></div>
+      <div style="position:relative;max-width:800px;padding:0 24px;text-align:center;">
+        <h2 style="font-family:Bitter,serif;font-weight:700;font-size:40px;color:#FFFFFF;margin:0 0 16px;line-height:1.15;">
+          One price. The whole season handled.
+        </h2>
+        <p style="font-family:Archivo,sans-serif;font-size:21px;color:#FFFFFF;opacity:0.85;margin:0 0 36px;font-weight:700;">Free on-site quote. Booking now for the 2026 season.</p>
+        <div style="display:flex;justify-content:center;gap:24px;margin-bottom:24px;">
+          <button style="height:56px;padding:0 32px;border-radius:8px;background:#C8102E;color:#FFFFFF;border:none;font-weight:600;font-size:18px;font-family:Archivo;cursor:pointer;" style-hover="background:#8E0B20;">Request a Free Quote</button>
+          <button style="height:56px;padding:0 32px;border-radius:8px;background:transparent;color:#FFFFFF;border:2px solid #FFFFFF;font-weight:600;font-size:18px;font-family:Archivo;cursor:pointer;" style-hover="background:rgba(255,255,255,0.1);">Call (913) 437-1221</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="background:#FFFFFF;padding:64px 120px 32px;border-top:1px solid #EAE6E1;">
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;">
+        <div>
+          <img src="assets/logo.webp" alt="O'Leary Holiday Lighting" style="height:110px;width:auto;object-fit:contain;">
+          <p style="color:#4A4A4A;font-size:16px;line-height:1.6;margin:16px 0 0;max-width:240px;">Custom Christmas light installation for Johnson County, Kansas.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;">
+            <a href="tel:9134371221" style="color:#1A1A1A;font-size:16px;">(913) 437-1221</a>
+            <a href="mailto:olearylighting@gmail.com" style="color:#1A1A1A;font-size:16px;">olearylighting@gmail.com</a>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:20px;">
+            <a href="#" style="width:36px;height:36px;border:1px solid #EAE6E1;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1A1A1A;font-size:16px;font-weight:700;">f</a>
+            <a href="#" style="width:36px;height:36px;border:1px solid #EAE6E1;border-radius:6px;display:flex;align-items:center;justify-content:center;"><span style="width:16px;height:16px;border:2px solid #1A1A1A;border-radius:4px;position:relative;"><span style="width:6px;height:6px;background:#1A1A1A;border-radius:50%;position:absolute;top:3px;left:3px;"></span></span></a>
+          </div>
+        </div>
+        <div>
+          <div style="color:#1A1A1A;font-weight:700;font-size:16px;letter-spacing:0.5px;margin-bottom:16px;">SERVICES</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Roofline Lighting</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Wreaths</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Tree &amp; Bush Lighting</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Ground Lighting</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Maintenance &amp; Storage</a>
+          </div>
+        </div>
+        <div>
+          <div style="color:#1A1A1A;font-weight:700;font-size:16px;letter-spacing:0.5px;margin-bottom:16px;">COMPANY</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#" style="color:#4A4A4A;font-size:16px;">About Us</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Reviews</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">FAQ</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Contact</a>
+          </div>
+        </div>
+        <div>
+          <div style="color:#1A1A1A;font-weight:700;font-size:16px;letter-spacing:0.5px;margin-bottom:16px;">SERVICE AREAS</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Overland Park</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Olathe</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Leawood</a>
+            <a href="#" style="color:#4A4A4A;font-size:16px;">Lenexa</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #EAE6E1;margin-top:48px;padding-top:24px;display:flex;justify-content:space-between;color:#4A4A4A;font-size:15px;">
+        <span>© 2026 O'Leary Holiday Lighting LLC · Overland Park, KS</span>
+        <a href="Privacy Policy.dc.html" style="color:#4A4A4A;">Privacy Policy</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { scale: 1, height: 0, servicesOpen: false, mobileOpen: false };
+  innerRef = React.createRef();
+
+  openServices = () => this.setState({ servicesOpen: true });
+  closeServices = () => this.setState({ servicesOpen: false });
+  toggleMobile = () => this.setState(s => ({ mobileOpen: !s.mobileOpen }));
+
+  measure = () => {
+    const el = this.innerRef.current;
+    if (!el) return;
+    const scale = Math.min(1, window.innerWidth / 1440);
+    const h = el.scrollHeight;
+    this.setState({ scale, height: h * scale });
+  };
+
+  componentDidMount() {
+    this.measure();
+    window.addEventListener('resize', this.measure);
+    this.ro = new ResizeObserver(this.measure);
+    if (this.innerRef.current) this.ro.observe(this.innerRef.current);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.measure);
+    if (this.ro) this.ro.disconnect();
+  }
+
+  renderVals() {
+    return {
+      innerRef: this.innerRef,
+      innerTransform: `scale(${this.state.scale})`,
+      outerHeight: this.state.height ? `${this.state.height}px` : 'auto',
+      openServices: this.openServices,
+      closeServices: this.closeServices,
+      servicesDropdownOpacity: this.state.servicesOpen ? 1 : 0,
+      servicesDropdownVisibility: this.state.servicesOpen ? 'visible' : 'hidden',
+      toggleMobile: this.toggleMobile,
+      mobileMenuDisplay: this.state.mobileOpen ? 'flex' : 'none',
+      headerBarHeight: this.state.scale * 88,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
