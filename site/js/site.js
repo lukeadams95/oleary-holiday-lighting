@@ -59,6 +59,70 @@
     });
   });
 
+  /* ------------------------------------------------------------ carousel --- */
+  var carousels = document.querySelectorAll('[data-carousel]');
+
+  Array.prototype.forEach.call(carousels, function (root) {
+    var slides = root.querySelectorAll('.carousel__slide');
+    var dots = root.querySelectorAll('.carousel__dot');
+    var prevBtn = root.querySelector('.carousel__arrow--prev');
+    var nextBtn = root.querySelector('.carousel__arrow--next');
+    var AUTOPLAY_MS = 5000;
+    var index = 0;
+    var timer = null;
+
+    if (slides.length < 2) return;
+
+    function show(next) {
+      index = (next + slides.length) % slides.length;
+      Array.prototype.forEach.call(slides, function (slide, n) {
+        slide.classList.toggle('is-active', n === index);
+      });
+      Array.prototype.forEach.call(dots, function (dot, n) {
+        dot.classList.toggle('is-active', n === index);
+      });
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      timer = window.setInterval(function () { show(index + 1); }, AUTOPLAY_MS);
+    }
+
+    function stopAutoplay() {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        show(index - 1);
+        startAutoplay();
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        show(index + 1);
+        startAutoplay();
+      });
+    }
+    Array.prototype.forEach.call(dots, function (dot, n) {
+      dot.addEventListener('click', function () {
+        show(n);
+        startAutoplay();
+      });
+    });
+
+    // Pause while a visitor is looking at or interacting with the carousel.
+    root.addEventListener('mouseenter', stopAutoplay);
+    root.addEventListener('mouseleave', startAutoplay);
+    root.addEventListener('focusin', stopAutoplay);
+    root.addEventListener('focusout', startAutoplay);
+
+    startAutoplay();
+  });
+
   /* ---------------------------------------------------------------- form --- */
   /* TODO(deploy): point every <form data-quote-form> at a real handler —
      set its `action` to your Formspree/Netlify/CRM endpoint and delete this
