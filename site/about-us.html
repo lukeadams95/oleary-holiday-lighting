@@ -135,9 +135,22 @@
           <h2 class="h2" style="margin-bottom:20px">Firefighter owned</h2>
           <p>I work full-time for a fire district in Johnson County, and three of our installers are employed by that same district. We're proud to have that many firefighters on the crew — they were chosen to protect 58,000 residents in a safe, professional, and respectful manner, which is the same standard they bring to your roof.</p>
         </div>
-        <div class="tile">
-          <div class="tile__media"><span class="tile__placeholder">Photos coming soon</span></div>
-          <span class="badge">Firefighter Owned</span>
+        <div class="carousel" data-carousel>
+          <div class="carousel__viewport">
+            <div class="carousel__slide is-active" style="background-image:url('images/firefighter-owned-scene.webp')"></div>
+            <div class="carousel__slide" style="background-image:url('images/firefighter-owned-rope-training.webp');background-position:center 35%"></div>
+            <span class="badge">Firefighter Owned</span>
+          </div>
+          <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Previous photo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Next photo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+          <div class="carousel__dots">
+            <button class="carousel__dot is-active" type="button" aria-label="Photo 1"></button>
+            <button class="carousel__dot" type="button" aria-label="Photo 2"></button>
+          </div>
         </div>
       </div>
     </div>
