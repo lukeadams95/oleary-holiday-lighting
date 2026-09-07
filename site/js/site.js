@@ -83,7 +83,7 @@
       }
       notice.textContent =
         'Form not connected yet — add your form endpoint before launch. ' +
-        'Call (913) 437-1221 in the meantime.';
+        'Call (913) 426-8387 in the meantime.';
     });
   });
 })();

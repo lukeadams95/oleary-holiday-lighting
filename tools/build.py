@@ -101,8 +101,8 @@ GOOGLE_LISTING = (
 )
 
 CITY_COLS = (
-    ["Overland Park", "Olathe", "Leawood", "Stilwell"],
-    ["Lenexa", "Prairie Village", "Shawnee", "Spring Hill"],
+    ["Overland Park", "Olathe", "Leawood", "Stilwell", "Louisburg", "Paola"],
+    ["Lenexa", "Prairie Village", "Shawnee", "Spring Hill", "Blue Springs", "Lee's Summit"],
 )
 
 
@@ -158,7 +158,7 @@ def p_cta(heading="Ready to see your house lit up?",
     <p class="cta-banner__line">{line}</p>
     <div class="btn-row btn-row--cta">
       <a class="btn btn--primary" href="request-a-quote.html">Request a Free Quote</a>
-      <a class="btn btn--outline-light" href="tel:9134371221">Call (913) 437-1221</a>
+      <a class="btn btn--outline-light" href="tel:9134268387">Call (913) 426-8387</a>
     </div>{foot_html}
   </div>
 </section>"""
@@ -275,7 +275,7 @@ SHELL_HEAD = """<!DOCTYPE html>
 {desktop_nav}
 
     <div class="site-header__cta">
-      <a class="site-header__phone" href="tel:9134371221">(913) 437-1221</a>
+      <a class="site-header__phone" href="tel:9134268387">(913) 426-8387</a>
       <a class="site-header__quote" href="request-a-quote.html">Request a Quote</a>
     </div>
 
@@ -299,7 +299,7 @@ SHELL_FOOT = """
         <img src="images/logo.webp" alt="O'Leary Holiday Lighting">
         <p class="site-footer__blurb">Custom Christmas light installation for Johnson County, Kansas.</p>
         <div class="site-footer__contact">
-          <a href="tel:9134371221">(913) 437-1221</a>
+          <a href="tel:9134268387">(913) 426-8387</a>
           <a href="mailto:olearylighting@gmail.com">olearylighting@gmail.com</a>
         </div>
         <div class="social">
