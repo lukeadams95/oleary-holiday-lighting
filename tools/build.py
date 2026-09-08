@@ -31,8 +31,341 @@ PAGES = ROOT / "tools" / "pages"
 OUT = ROOT / "site"
 
 SITE_URL = "https://www.olearyholidaylighting.com"
-# Transactional pages that shouldn't be indexed or crawled for content.
-SITEMAP_EXCLUDE = {"thank-you"}
+# Transactional / non-content pages that shouldn't be indexed or crawled.
+SITEMAP_EXCLUDE = {"thank-you", "404"}
+
+
+def page_url(slug):
+    return SITE_URL + "/" if slug == "index" else f"{SITE_URL}/{slug}.html"
+
+
+# --------------------------------------------------------------------------
+# SEO: canonical / Open Graph / Twitter tags and JSON-LD structured data.
+# Real, on-page data only — see seo-audit.md for what could and couldn't be
+# verified, and for the one FAQ answer deliberately left out of FAQPage
+# schema because its visible text still carries a "[CLIENT TO CONFIRM]"
+# placeholder.
+# --------------------------------------------------------------------------
+
+ORG_ID = SITE_URL + "/#organization"
+WEBSITE_ID = SITE_URL + "/#website"
+BIZ_ID = SITE_URL + "/#localbusiness"
+
+PHONE_E164 = "+19134268386"
+FACEBOOK_URL = "https://www.facebook.com/share/1JNp1tX1uM/"
+GBP_URL = "https://share.google/d3Q3Bb9cU76evWhM8"
+
+# The Service Areas page is the authoritative city list — it's the one page
+# whose sole job is naming the towns served. The homepage and About Us also
+# list "Blue Springs" and "Lee's Summit" (Missouri cities absent here); that
+# mismatch is flagged in seo-audit.md rather than silently resolved, since
+# only the client knows which list is actually correct.
+SERVICE_AREA_CITIES = [
+    "Overland Park", "Olathe", "Leawood", "Lenexa", "Prairie Village",
+    "Shawnee", "Gardner", "Spring Hill", "Stilwell", "De Soto",
+    "Paola", "Louisburg", "Osawatomie", "Fontana", "Linn Valley",
+]
+
+OG_IMAGE_OVERRIDES = {
+    "roofline-lighting": "roofline-hero.webp",
+    "wreaths": "wreaths-hero.webp",
+    "tree-bush-lighting": "tree-bush-hero.webp",
+    "ground-lighting": "ground-hero.webp",
+    "maintenance-storage": "maintenance-hero.webp",
+    "services": "services-hero.webp",
+    "about-us": "tommy-oleary.webp",
+}
+
+
+def og_image_url(slug):
+    return f"{SITE_URL}/images/{OG_IMAGE_OVERRIDES.get(slug, 'hero-house.webp')}"
+
+
+# slug -> (breadcrumb label, parent slug or None). A page absent from this
+# map (index, thank-you, 404) gets no breadcrumb — it's either the root or
+# not meant for organic entry.
+BREADCRUMB_LABELS = {
+    "about-us": ("About Us", None),
+    "contact": ("Contact", None),
+    "faq": ("FAQ", None),
+    "reviews": ("Reviews", None),
+    "service-areas": ("Service Areas", None),
+    "request-a-quote": ("Request a Quote", None),
+    "privacy-policy": ("Privacy Policy", None),
+    "services": ("Services", None),
+    "roofline-lighting": ("Roofline Lighting", "services"),
+    "wreaths": ("Wreaths", "services"),
+    "tree-bush-lighting": ("Tree & Bush Lighting", "services"),
+    "ground-lighting": ("Ground Lighting", "services"),
+    "maintenance-storage": ("Maintenance & Storage", "services"),
+}
+
+
+def breadcrumb_trail(slug):
+    """List of (label, slug) from Home down to the current page, or None."""
+    if slug not in BREADCRUMB_LABELS:
+        return None
+    label, parent = BREADCRUMB_LABELS[slug]
+    trail = [("Home", "index")]
+    if parent:
+        trail.append((BREADCRUMB_LABELS[parent][0], parent))
+    trail.append((label, slug))
+    return trail
+
+
+def breadcrumb_html(slug):
+    trail = breadcrumb_trail(slug)
+    if not trail:
+        return ""
+    items = []
+    for i, (label, crumb_slug) in enumerate(trail):
+        if i == len(trail) - 1:
+            items.append(f'      <li aria-current="page">{label}</li>')
+        else:
+            # Relative filename, matching every other internal link on the site.
+            href = "index.html" if crumb_slug == "index" else f"{crumb_slug}.html"
+            items.append(f'      <li><a href="{href}">{label}</a></li>')
+    return (
+        '\n<nav class="breadcrumb" aria-label="Breadcrumb">\n'
+        '  <div class="container">\n    <ol>\n'
+        + "\n".join(items)
+        + "\n    </ol>\n  </div>\n</nav>\n"
+    )
+
+
+def breadcrumb_jsonld(slug):
+    trail = breadcrumb_trail(slug)
+    if not trail:
+        return None
+    return {
+        "@type": "BreadcrumbList",
+        "@id": page_url(slug) + "#breadcrumb",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": label, "item": page_url(crumb_slug)}
+            for i, (label, crumb_slug) in enumerate(trail)
+        ],
+    }
+
+
+# Each (question, answer) is transcribed verbatim from the page it maps to —
+# nothing here that isn't visibly rendered there. That's what keeps FAQPage
+# schema safe rather than a manual-action risk.
+SERVICE_FAQS = {
+    "roofline-lighting": [
+        ("Do I need to buy the lights?", "No. Everything is ours and stays ours. That's what makes the maintenance and storage work."),
+        ("What if something goes out in December?", "Call us. We come fix it, usually next day, at no extra cost."),
+        ("Will the clips damage my roof or gutters?", "No. They're sized to your shingles and gutters and come off clean in January. Nothing gets stapled or nailed."),
+        ("When should I book?", "ASAP. We fill up fast, and as spots on the schedule run out, price tends to increase."),
+        ("Do you do commercial?", "Yes — we've done a number of commercial properties, including businesses and stores, HOAs, and a few city lighting projects."),
+    ],
+    "wreaths": [
+        ("Can I get wreaths without a full light install?", "Yes, that's something we can do — it's just a little pricier on its own."),
+        ("Are they real or artificial?", "Artificial. That's what lets us reuse them without any extra charge, and it keeps them from rotting away on the house."),
+        ("How many can I get?", "As many as the house will hold. That's the point of the pricing."),
+    ],
+    "tree-bush-lighting": [
+        ("How big a tree can you do?", "The tallest trees we've done are around 45 ft. Anything much taller than that needs a lift, which increases the price."),
+        ("Will wrapping hurt the tree?", "No. Strands come off in January and nothing is fastened into the bark."),
+        ("Can I add trees to a roofline quote?", "Yes. Most people do it at the on-site visit once they see the layout."),
+        ("Do you light trees without a roofline install?", "Yes — same as with wreaths. It costs a bit more than it would as an add-on to a roofline install."),
+    ],
+    "ground-lighting": [
+        ("Will it survive snow removal?", "Stakes sit clear of the walk and drive surface, but tell us where you plow or shovel and we'll route around it."),
+        ("Can I add this to an existing quote?", "Yes. Easiest to decide at the on-site visit."),
+        ("Do you do ground lighting on its own?", "Yes. It costs a bit more than it would as an add-on to a roofline install already in progress."),
+        ("What about the backyard or patio?", "Yes."),
+    ],
+    "maintenance-storage": [
+        ("Is there an extra charge for repairs?", "No."),
+        ("How fast do you come out?", "Within 24 to 48 hours, though it's usually closer to 24."),
+        ("When does takedown happen?", "We generally start takedowns January 2nd. We're at the weather's mercy in January, but we try to have everything down by mid-February."),
+        ("Do I need to be home?", "No, for either takedown or repairs on the exterior."),
+    ],
+}
+
+# The full FAQ page, minus "What areas do you serve?" — its visible answer
+# currently contains a live "[CLIENT TO CONFIRM — final city list]"
+# placeholder (see seo-audit.md), and baking that into FAQPage schema risks
+# Google surfacing the placeholder text itself as a search result snippet.
+FAQ_PAGE_QA = [
+    ("How much does it cost?", "Every house is different — roofline length, height, pitch, and how much of the yard you want lit. That's why the quote is free and done on-site. New installs typically run around $750; rehangs of an existing setup are generally around $500."),
+    ("What's included in the price?", "Design, all lights and clips and cords and timers, install, maintenance all season, takedown in January, and storage until next year. One price, no per-visit charges, no storage fee."),
+    ("Do I pay up front?", "We collect a 50% deposit up front on new installs. The rest is due once the lights are put up."),
+    ("When should I book?", "ASAP. We fill up fast, and as spots on the schedule run out, price tends to increase."),
+    ("Do you offer a discount for booking early or rebooking?", "Yes — $25 off when your install is booked before November."),
+    ("Do I buy the lights or do you?", "They're ours. You're not buying strands you have to store, replace, and re-hang — that's what makes the maintenance and storage work."),
+    ("What kind of bulbs do you use?", "Commercial-grade C9 bulbs on rooflines, in warm white, cool white, or color. Mini lights on trees and bushes. We'll bring samples to the quote so you can see them against your brick or siding."),
+    ("Can I pick the colors?", "Yes. We'll also show you what a color looks like on your house before you commit — it reads differently on red brick than on gray siding."),
+    ("Can I keep the lights up past the season?", "We'll ask everyone at the start of the year who wants their lights down early and who doesn't mind if they stay up a little longer — that helps us coordinate takedowns. Everything we put up does come down by the end of the season, though."),
+    ("How long does install take?", "An average-size roofline job takes about an hour for a first-time install. Reinstalls at a house we've already done usually take about half that."),
+    ("Do I need to be home?", "No. We work on the exterior. If we need access to an outlet or a GFCI, we'll arrange that when we quote."),
+    ("Will the clips damage my roof or gutters?", "No. Clips are sized to your shingles and gutters and come off clean in January. Nothing is stapled, nailed, or screwed into the house."),
+    ("How high will you go?", "Second and third stories, steep pitches, and the spots other crews pass on. Firefighter owned — ladder work is the part we're least worried about."),
+    ("Will you use my outdoor outlet, and what does it do to my electric bill?", "Yes, we run off your exterior outlets on a timer. We only use LED bulbs, which draw a lot less power than old glass incandescent bulbs — about 20 cents a day to run."),
+    ("Something went out. What do I do?", "Call us. We come fix it, usually next day, at no extra charge."),
+    ("What if a storm knocks something down?", "Same answer — call us and we'll come reset it. Wind and ice are the two things that move lights in Kansas, and we plan for both."),
+    ("Is there a charge for repairs?", "No."),
+    ("When do you take the lights down?", "We generally start takedowns January 2nd. We're at the weather's mercy in January, but we try to have everything down by mid-February."),
+    ("Do I need to be home for takedown?", "No."),
+    ("Where do the lights go afterward?", "Back to our warehouse. Everything gets checked and labeled to your house, so next season it goes up exactly the same way. Nothing takes up space in your garage."),
+    ("Do you do anything besides Christmas lights?", "No. That's the point. Most companies in Kansas City hang lights to get through the winter and are back on landscaping by January. This is our whole season."),
+    ("Are you insured?", "Yes — we're insured up to $1 million per occurrence, with a $2 million aggregate policy."),
+    ("Do you do commercial properties?", "Yes — we've done a number of commercial properties, including businesses and stores, HOAs, and a few city lighting projects."),
+]
+
+# name, quote — exactly the reviews rendered on that specific page, all
+# 5-star per their visible aria-labels. Deliberately not repeated on every
+# page: aggregateRating/review schema is scoped to where the rating badge
+# and review text are actually visible.
+REVIEWS_ON_PAGE = {
+    "index": [
+        ("David Nawrocki", "Tommy has done a great job with our holiday lights for two years now. Our roof has high peaks and likely isn't an easy job, but he makes it look easy. He's a good communicator and very professional."),
+        ("Hope Campbell", "We used O'Leary Holiday Lighting last season and are using them again this season. They gave us options on lighting schemes so we got exactly what we wanted. The prices were reasonable and did not vary from the quote. They returned to take the lights down and stored them for us."),
+        ("Keagan Sinclair", "The team at O'Leary Holiday Lighting did such a great job on my lights in Leawood. I cannot recommend them enough. Super happy with how they turned out, and they handled everything, which made it super easy."),
+    ],
+    "reviews": [
+        ("Maria Collins", "I can't recommend Tommy at O'Leary Holiday Lighting enough! We use him for our business and personal lighting. He's absolutely amazing—super responsive, professional, and does incredible work. Our Christmas lights look perfect every year, and he makes the whole process so easy and stress-free. 10/10 service!"),
+        ("John Forkner", "Tommy did a fantastic job of getting our home in the Holiday spirit last year. We are already on his schedule to get them up early this year. I would highly recommend O'Leary Holiday Lighting for your holiday outdoor lighting project."),
+        ("Alexis Kelford", "I can't say enough good things about this company! They make the whole process of putting up Christmas lights completely stress-free. Communication is always fast and easy, they get everything done quickly, and the results are absolutely beautiful every year. I love that they handle the storage, too."),
+        ("Lauren Greve", "Tommy has installed our Christmas lights for 3 years and does a fantastic job every Christmas! He operates his business professionally, provides consistent communication & is always timely in both the install and take down, plus the prices are very reasonable."),
+        ("Todd Crescio", "Tommy did a great job installing our Christmas lights on the outside of our home, as well as decorating our trees. He was prompt, professional, and made sure we were satisfied with the installation before he left. We would highly recommend O'Leary to anyone looking for holiday lighting."),
+        ("Elizabeth Duroche", "We absolutely love O'Leary Holiday Lighting! They help bring the holidays to life around our house. They are professional, friendly & do a wonderful job! Thank you for being a part of our holiday tradition!"),
+    ],
+}
+
+SERVICE_PAGE_NAMES = {
+    "roofline-lighting": "Roofline Lighting",
+    "wreaths": "Wreaths",
+    "tree-bush-lighting": "Tree & Bush Lighting",
+    "ground-lighting": "Ground Lighting",
+    "maintenance-storage": "Maintenance, Takedown & Storage",
+}
+
+
+def organization_node():
+    return {
+        "@type": "Organization",
+        "@id": ORG_ID,
+        "name": "O'Leary Holiday Lighting",
+        "legalName": "O'Leary Holiday Lighting, LLC",
+        "url": SITE_URL + "/",
+        "logo": SITE_URL + "/images/logo.webp",
+        "sameAs": [FACEBOOK_URL, GBP_URL],
+    }
+
+
+def website_node():
+    return {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        "name": "O'Leary Holiday Lighting",
+        "url": SITE_URL + "/",
+        "publisher": {"@id": ORG_ID},
+    }
+
+
+def local_business_node(slug):
+    node = {
+        "@type": "HomeAndConstructionBusiness",
+        "@id": BIZ_ID,
+        "name": "O'Leary Holiday Lighting",
+        "url": SITE_URL + "/",
+        "telephone": PHONE_E164,
+        "image": SITE_URL + "/images/logo.webp",
+        "areaServed": [{"@type": "City", "name": c} for c in SERVICE_AREA_CITIES],
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday", "Tuesday", "Wednesday", "Thursday",
+                "Friday", "Saturday", "Sunday",
+            ],
+            "opens": "08:00",
+            "closes": "20:00",
+        },
+        "foundingDate": "2022",
+        "parentOrganization": {"@id": ORG_ID},
+    }
+    if slug in REVIEWS_ON_PAGE:
+        node["aggregateRating"] = {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "44",
+        }
+        node["review"] = [
+            {
+                "@type": "Review",
+                "author": {"@type": "Person", "name": name},
+                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                "reviewBody": quote,
+            }
+            for name, quote in REVIEWS_ON_PAGE[slug]
+        ]
+    return node
+
+
+def faq_node(slug):
+    qa = FAQ_PAGE_QA if slug == "faq" else SERVICE_FAQS.get(slug)
+    if not qa:
+        return None
+    return {
+        "@type": "FAQPage",
+        "@id": page_url(slug) + "#faq",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+            for q, a in qa
+        ],
+    }
+
+
+def service_node(slug):
+    name = SERVICE_PAGE_NAMES.get(slug)
+    if not name:
+        return None
+    return {
+        "@type": "Service",
+        "@id": page_url(slug) + "#service",
+        "name": name,
+        "serviceType": name,
+        "provider": {"@id": BIZ_ID},
+        "areaServed": [{"@type": "City", "name": c} for c in SERVICE_AREA_CITIES],
+        "url": page_url(slug),
+    }
+
+
+def jsonld_for(slug):
+    graph = [organization_node(), website_node(), local_business_node(slug)]
+    for node in (breadcrumb_jsonld(slug), faq_node(slug), service_node(slug)):
+        if node:
+            graph.append(node)
+    data = {"@context": "https://schema.org", "@graph": graph}
+    return (
+        '<script type="application/ld+json">\n'
+        + json.dumps(data, ensure_ascii=False, indent=2)
+        + "\n</script>"
+    )
+
+
+def meta_tags_for(slug, meta):
+    title = meta["title"]
+    description = meta["description"]
+    url = page_url(slug)
+    image = og_image_url(slug)
+    return f"""<link rel="canonical" href="{url}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="O'Leary Holiday Lighting">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{image}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{description}">
+<meta name="twitter:image" content="{image}">
+{jsonld_for(slug)}"""
 
 NAV_ITEMS = [
     ("home", "index.html", "Home"),
@@ -254,7 +587,7 @@ FEEDBUCKET = """<script>
   }
 </script>"""
 
-SHELL_HEAD = """<!DOCTYPE html>
+SHELL_HEAD_TOP = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <!-- Google tag (gtag.js) -->
@@ -270,6 +603,9 @@ SHELL_HEAD = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{description}">
+"""
+
+SHELL_HEAD_BOTTOM = """
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -283,12 +619,13 @@ SHELL_HEAD = """<!DOCTYPE html>
 {feedbucket}
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ===================================================== HEADER ========= -->
 <header class="site-header">
   <div class="site-header__bar">
     <a class="site-header__logo" href="index.html">
-      <img src="images/logo.webp" alt="O'Leary Holiday Lighting">
+      <img src="images/logo.webp" alt="O'Leary Holiday Lighting" width="123" height="81">
     </a>
 
 {desktop_nav}
@@ -315,7 +652,7 @@ SHELL_FOOT = """
   <div class="container">
     <div class="site-footer__grid">
       <div>
-        <img src="images/logo.webp" alt="O'Leary Holiday Lighting">
+        <img src="images/logo.webp" alt="O'Leary Holiday Lighting" width="161" height="110" loading="lazy">
         <p class="site-footer__blurb">Custom Christmas light installation for Johnson County, Kansas.</p>
         <div class="site-footer__contact">
           <a href="tel:9134268386">(913) 426-8386</a>
@@ -380,24 +717,28 @@ def build():
             raise SystemExit(f"{frag.name}: missing <!--meta {{...}} --> front matter")
         meta = json.loads(match.group(1))
         body = expand_partials(raw[match.end():].rstrip(), frag.name) + "\n"
+        slug = meta["slug"]
 
         page = (
-            SHELL_HEAD.format(
-                title=meta["title"],
-                description=meta["description"],
+            SHELL_HEAD_TOP.format(title=meta["title"], description=meta["description"])
+            + meta_tags_for(slug, meta)
+            + "\n"
+            + SHELL_HEAD_BOTTOM.format(
                 feedbucket=FEEDBUCKET,
                 desktop_nav=desktop_nav(meta.get("nav", ""), meta.get("service", "")),
                 mobile_nav=mobile_nav(meta.get("nav", ""), meta.get("service", "")),
             )
+            + breadcrumb_html(slug)
             + body
             + SHELL_FOOT
         )
-        target = OUT / f"{meta['slug']}.html"
+        target = OUT / f"{slug}.html"
         target.write_text(page)
         print(f"  wrote {target.relative_to(ROOT)}")
-        slugs.append(meta["slug"])
+        slugs.append(slug)
 
     write_sitemap(slugs)
+    write_robots()
 
 
 def write_sitemap(slugs):
@@ -415,6 +756,18 @@ def write_sitemap(slugs):
     )
     target = OUT / "sitemap.xml"
     target.write_text(xml)
+    print(f"  wrote {target.relative_to(ROOT)}")
+
+
+def write_robots():
+    text = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        f"Sitemap: {SITE_URL}/sitemap.xml\n"
+    )
+    target = OUT / "robots.txt"
+    target.write_text(text)
     print(f"  wrote {target.relative_to(ROOT)}")
 
 
