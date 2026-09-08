@@ -125,9 +125,9 @@
 
   /* ---------------------------------------------------------------- form --- */
   /* TODO(deploy): point every <form data-quote-form> at a real handler —
-     set its `action` to your Formspree/Netlify/CRM endpoint and delete the
-     placeholder-guard block below. Until then, submitting shows a
-     confirmation instead of posting to the placeholder endpoint.
+     set its `action` to your Formspree/CRM/webhook endpoint and delete the
+     placeholder-guard block below. Until then, submitting redirects to
+     /thank-you instead of posting to the placeholder endpoint.
      The lead-notification email (send-lead-notification) fires on every
      submission regardless, in parallel with whatever the form's own action
      does — it never blocks or interferes with that submission. */
@@ -170,16 +170,7 @@
       if (form.getAttribute('action') !== PLACEHOLDER_ACTION) return; // real endpoint wired up — let it submit/navigate normally
       event.preventDefault();
 
-      var notice = form.querySelector('.form__status');
-      if (!notice) {
-        notice = document.createElement('p');
-        notice.className = 'form__footnote form__status';
-        notice.setAttribute('role', 'status');
-        form.appendChild(notice);
-      }
-      notice.textContent =
-        'Form not connected yet — add your form endpoint before launch. ' +
-        'Call (913) 426-8386 in the meantime.';
+      window.location.href = '/thank-you';
     });
   });
 })();

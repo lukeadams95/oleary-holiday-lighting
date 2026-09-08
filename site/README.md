@@ -53,10 +53,10 @@ action="https://example.invalid/oleary-quote-endpoint"
 ```
 
 Replace that `action` on each `<form data-quote-form>` with your real endpoint
-(Formspree, Netlify Forms, a CRM webhook, whatever you use). `js/site.js`
-watches for the placeholder and shows a "not connected yet" notice instead of
-submitting; as soon as the `action` changes, that guard steps aside and the
-form posts normally. Delete the guard block in `js/site.js` once it's wired.
+(Formspree, a CRM webhook, whatever you use). `js/site.js` watches for the
+placeholder and redirects to `/thank-you` instead of submitting; as soon as
+the `action` changes, that guard steps aside and the form posts/navigates
+normally. Delete the guard block in `js/site.js` once it's wired.
 
 Separately from that endpoint, every submission also emails a lead
 notification to `olearylighting@gmail.com` via the `send-lead-notification`
