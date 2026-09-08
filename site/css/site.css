@@ -317,6 +317,8 @@ ul { margin: 0; }
   align-items: stretch;
   gap: 40px;
   height: var(--header-h);
+  max-width: var(--container);
+  margin: 0 auto;
   padding: 0 60px;
 }
 
