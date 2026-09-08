@@ -1,4 +1,11 @@
-import type { Config } from "@netlify/functions";
+interface Env {
+  RESEND_API_KEY: string;
+}
+
+interface PagesContext {
+  request: Request;
+  env: Env;
+}
 
 const RESEND_API_URL = "https://api.resend.com/emails";
 const FROM_ADDRESS = "O'Leary Holiday Lighting <leads@newleadrelay.com>";
@@ -75,17 +82,17 @@ function buildEmailHtml(fields: Record<string, unknown>): string {
 </div>`;
 }
 
-async function parseFields(req: Request): Promise<Record<string, unknown>> {
-  const contentType = req.headers.get("content-type") || "";
+async function parseFields(request: Request): Promise<Record<string, unknown>> {
+  const contentType = request.headers.get("content-type") || "";
   if (contentType.includes("application/json")) {
-    const body = await req.json();
+    const body = await request.json();
     if (!body || typeof body !== "object" || Array.isArray(body)) {
       throw new Error("Request body must be a JSON object");
     }
     return body as Record<string, unknown>;
   }
 
-  const form = await req.formData();
+  const form = await request.formData();
   const fields: Record<string, unknown> = {};
   for (const key of new Set(form.keys())) {
     const values = form.getAll(key).map((v) => (typeof v === "string" ? v : v.name));
@@ -94,16 +101,14 @@ async function parseFields(req: Request): Promise<Record<string, unknown>> {
   return fields;
 }
 
-export default async (req: Request): Promise<Response> => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: CORS_HEADERS });
-  }
+export async function onRequestOptions(): Promise<Response> {
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
 
-  if (req.method !== "POST") {
-    return jsonResponse({ error: "Method not allowed" }, 405);
-  }
+export async function onRequestPost(context: PagesContext): Promise<Response> {
+  const { request, env } = context;
 
-  const apiKey = Netlify.env.get("RESEND_API_KEY");
+  const apiKey = env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("send-lead-notification: RESEND_API_KEY is not configured");
     return jsonResponse({ error: "Email is not configured" }, 500);
@@ -111,7 +116,7 @@ export default async (req: Request): Promise<Response> => {
 
   let fields: Record<string, unknown>;
   try {
-    fields = await parseFields(req);
+    fields = await parseFields(request);
   } catch (err) {
     return jsonResponse({ error: "Invalid form data" }, 400);
   }
@@ -149,8 +154,4 @@ export default async (req: Request): Promise<Response> => {
     console.error("send-lead-notification: unexpected error", err);
     return jsonResponse({ error: "Unexpected error" }, 500);
   }
-};
-
-export const config: Config = {
-  path: "/send-lead-notification",
-};
+}
