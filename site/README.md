@@ -58,6 +58,14 @@ watches for the placeholder and shows a "not connected yet" notice instead of
 submitting; as soon as the `action` changes, that guard steps aside and the
 form posts normally. Delete the guard block in `js/site.js` once it's wired.
 
+Separately from that endpoint, every submission also emails a lead
+notification to `olearylighting@gmail.com` via the `send-lead-notification`
+Netlify function (`../netlify/functions/send-lead-notification.mts`), backed
+by [Resend](https://resend.com). That requires a `RESEND_API_KEY` environment
+variable set on the Netlify site — nothing to change in the form markup for
+it, and it fires in parallel with whatever the form's own `action` does, so a
+failed email never blocks a submission.
+
 **2. Fill the `[CLIENT TO CONFIRM — …]` placeholders.** These are deliberate,
 carried over from the design, and are visible on the page. Search the folder:
 

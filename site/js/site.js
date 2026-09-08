@@ -125,18 +125,50 @@
 
   /* ---------------------------------------------------------------- form --- */
   /* TODO(deploy): point every <form data-quote-form> at a real handler —
-     set its `action` to your Formspree/Netlify/CRM endpoint and delete this
-     block. Until then, submitting shows a confirmation instead of posting to
-     the placeholder endpoint. */
+     set its `action` to your Formspree/Netlify/CRM endpoint and delete the
+     placeholder-guard block below. Until then, submitting shows a
+     confirmation instead of posting to the placeholder endpoint.
+     The lead-notification email (send-lead-notification) fires on every
+     submission regardless, in parallel with whatever the form's own action
+     does — it never blocks or interferes with that submission. */
   var PLACEHOLDER_ACTION = 'https://example.invalid/oleary-quote-endpoint';
+  var LEAD_NOTIFICATION_ENDPOINT = '/send-lead-notification';
   var forms = document.querySelectorAll('form[data-quote-form]');
+
+  function collectFormFields(form) {
+    var data = new FormData(form);
+    var fields = {};
+    Array.prototype.forEach.call(Array.from(new Set(data.keys())), function (key) {
+      var values = data.getAll(key);
+      fields[key] = values.length > 1 ? values : values[0];
+    });
+    return fields;
+  }
+
+  function notifyLead(form) {
+    fetch(LEAD_NOTIFICATION_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(collectFormFields(form)),
+      keepalive: true
+    }).then(function (res) {
+      if (!res.ok) throw new Error('send-lead-notification responded ' + res.status);
+    }).catch(function (err) {
+      // Best-effort only: never blocks navigation or shows a user-facing error.
+      console.error('Lead notification failed:', err);
+    });
+  }
 
   Array.prototype.forEach.call(forms, function (form) {
     form.addEventListener('submit', function (event) {
-      if (form.getAttribute('action') !== PLACEHOLDER_ACTION) return; // real endpoint wired up
-      event.preventDefault();
-
       if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+
+      // Fires in parallel with the form's own submission below — doesn't
+      // await or gate on it either way.
+      notifyLead(form);
+
+      if (form.getAttribute('action') !== PLACEHOLDER_ACTION) return; // real endpoint wired up — let it submit/navigate normally
+      event.preventDefault();
 
       var notice = form.querySelector('.form__status');
       if (!notice) {
