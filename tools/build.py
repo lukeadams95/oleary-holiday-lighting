@@ -30,6 +30,10 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ROOT / "tools" / "pages"
 OUT = ROOT / "site"
 
+SITE_URL = "https://www.olearyholidaylighting.com"
+# Transactional pages that shouldn't be indexed or crawled for content.
+SITEMAP_EXCLUDE = {"thank-you"}
+
 NAV_ITEMS = [
     ("home", "index.html", "Home"),
     ("services", "services.html", "Services"),
@@ -253,6 +257,15 @@ FEEDBUCKET = """<script>
 SHELL_HEAD = """<!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD7LE5J4YS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RD7LE5J4YS');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
@@ -359,6 +372,7 @@ def build():
     if not fragments:
         raise SystemExit("no page fragments found in tools/pages/")
 
+    slugs = []
     for frag in fragments:
         raw = frag.read_text()
         match = META_RE.match(raw)
@@ -381,6 +395,27 @@ def build():
         target = OUT / f"{meta['slug']}.html"
         target.write_text(page)
         print(f"  wrote {target.relative_to(ROOT)}")
+        slugs.append(meta["slug"])
+
+    write_sitemap(slugs)
+
+
+def write_sitemap(slugs):
+    urls = [
+        SITE_URL + "/" if slug == "index" else f"{SITE_URL}/{slug}.html"
+        for slug in slugs
+        if slug not in SITEMAP_EXCLUDE
+    ]
+    body = "\n".join(f"  <url><loc>{url}</loc></url>" for url in urls)
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{body}\n"
+        "</urlset>\n"
+    )
+    target = OUT / "sitemap.xml"
+    target.write_text(xml)
+    print(f"  wrote {target.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
