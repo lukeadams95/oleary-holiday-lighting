@@ -771,6 +771,32 @@ def write_robots():
     print(f"  wrote {target.relative_to(ROOT)}")
 
 
+# Cloudflare Pages reads a plain-text `_redirects` file from the publish
+# root. Every real page lives at an explicit `/slug.html` URL (see the
+# module docstring), so any extensionless path 404s unless it's listed
+# here.
+#
+# - "/contact" -> "/contact.html": Search Console reported this exact path
+#   404ing, presumably from an old external link or a stale indexed URL
+#   that never carried the extension. 301 it to the real page.
+# - "/hibu-video-splash" -> "/": leftover URL from the site's previous
+#   provider (Hibu), from before this static rebuild. It has no equivalent
+#   page here, so send it to the homepage instead of leaving it a dead
+#   link Google keeps re-checking.
+REDIRECTS = [
+    ("/contact", "/contact.html", 301),
+    ("/hibu-video-splash", "/", 301),
+]
+
+
+def write_redirects():
+    text = "".join(f"{src}  {dest}  {code}\n" for src, dest, code in REDIRECTS)
+    target = OUT / "_redirects"
+    target.write_text(text)
+    print(f"  wrote {target.relative_to(ROOT)}")
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     build()
+    write_redirects()
