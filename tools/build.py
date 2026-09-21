@@ -771,10 +771,10 @@ def write_robots():
     print(f"  wrote {target.relative_to(ROOT)}")
 
 
-# Cloudflare Pages reads a plain-text `_redirects` file from the publish
-# root. Every real page lives at an explicit `/slug.html` URL (see the
-# module docstring), so any extensionless path 404s unless it's listed
-# here.
+# Both Netlify and Cloudflare Pages read a plain-text `_redirects` file
+# from the publish root, in the same simple "from to status" syntax. Every
+# real page lives at an explicit `/slug.html` URL (see the module
+# docstring), so any extensionless path 404s unless it's listed here.
 #
 # - "/contact" -> "/contact.html": Search Console reported this exact path
 #   404ing, presumably from an old external link or a stale indexed URL

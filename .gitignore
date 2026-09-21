@@ -1,3 +1,4 @@
 .wrangler/
+.netlify/
 node_modules/
 __pycache__/

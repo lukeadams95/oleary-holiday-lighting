@@ -60,9 +60,9 @@ normally. Delete the guard block in `js/site.js` once it's wired.
 
 Separately from that endpoint, every submission also emails a lead
 notification to `olearylighting@gmail.com` via the `send-lead-notification`
-Cloudflare Pages Function (`../functions/send-lead-notification.ts`), backed
+Netlify Function (`../netlify/functions/send-lead-notification.mts`), backed
 by [Resend](https://resend.com). That requires a `RESEND_API_KEY` environment
-variable set on the Cloudflare Pages project (Settings → Environment
+variable set on the Netlify site (Site configuration → Environment
 variables) — nothing to change in the form markup for it, and it fires in
 parallel with whatever the form's own `action` does, so a failed email never
 blocks a submission.
