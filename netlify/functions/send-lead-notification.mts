@@ -75,6 +75,25 @@ function buildEmailHtml(fields: Record<string, unknown>): string {
 </div>`;
 }
 
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const TURNSTILE_FIELD = "cf-turnstile-response";
+
+async function verifyTurnstile(secret: string, token: string, ip: string | null): Promise<boolean> {
+  const body = new URLSearchParams({ secret, response: token });
+  if (ip) body.set("remoteip", ip);
+  try {
+    const res = await fetch(TURNSTILE_VERIFY_URL, { method: "POST", body });
+    const outcome = (await res.json()) as { success?: boolean; "error-codes"?: string[] };
+    if (!outcome.success) {
+      console.warn("send-lead-notification: Turnstile rejected token", outcome["error-codes"]);
+    }
+    return outcome.success === true;
+  } catch (err) {
+    console.error("send-lead-notification: Turnstile verification error", err);
+    return false;
+  }
+}
+
 async function parseFields(req: Request): Promise<Record<string, unknown>> {
   const contentType = req.headers.get("content-type") || "";
   if (contentType.includes("application/json")) {
@@ -114,6 +133,22 @@ export default async (req: Request): Promise<Response> => {
     fields = await parseFields(req);
   } catch (err) {
     return jsonResponse({ error: "Invalid form data" }, 400);
+  }
+
+  const token = String(fields[TURNSTILE_FIELD] ?? "").trim();
+  delete fields[TURNSTILE_FIELD];
+  const turnstileSecret = Netlify.env.get("TURNSTILE_SECRET_KEY");
+  if (!turnstileSecret) {
+    // Fail open so real leads aren't dropped while the key is missing.
+    console.error("send-lead-notification: TURNSTILE_SECRET_KEY is not configured — skipping spam check");
+  } else {
+    if (!token) {
+      return jsonResponse({ error: "Missing security check" }, 400);
+    }
+    const ip = req.headers.get("x-nf-client-connection-ip");
+    if (!(await verifyTurnstile(turnstileSecret, token, ip))) {
+      return jsonResponse({ error: "Security check failed" }, 403);
+    }
   }
 
   const name = String(fields.name ?? "").trim();

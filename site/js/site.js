@@ -163,6 +163,15 @@
     form.addEventListener('submit', function (event) {
       if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
 
+      // Cloudflare Turnstile writes its token into a hidden input once the
+      // visitor passes the check. No token yet → hold the submission.
+      var token = form.querySelector('[name="cf-turnstile-response"]');
+      if (form.querySelector('.cf-turnstile') && (!token || !token.value)) {
+        event.preventDefault();
+        window.alert('Please complete the security check before submitting.');
+        return;
+      }
+
       // Fires in parallel with the form's own submission below — doesn't
       // await or gate on it either way.
       notifyLead(form);

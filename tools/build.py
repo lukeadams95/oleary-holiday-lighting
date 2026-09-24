@@ -704,6 +704,18 @@ SHELL_FOOT = """
 """
 
 
+# Cloudflare Turnstile — loaded only on pages that carry a quote form. The
+# widget itself is the <div class="cf-turnstile"> inside each form; the token
+# it produces is verified server-side in send-lead-notification.
+TURNSTILE_SCRIPT = (
+    '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>\n'
+)
+
+
+def with_turnstile(foot):
+    return foot.replace('<script src="js/site.js">', TURNSTILE_SCRIPT + '<script src="js/site.js">', 1)
+
+
 def build():
     fragments = sorted(p for p in PAGES.glob("*.html") if not p.name.startswith("_"))
     if not fragments:
@@ -730,7 +742,7 @@ def build():
             )
             + breadcrumb_html(slug)
             + body
-            + SHELL_FOOT
+            + (with_turnstile(SHELL_FOOT) if "data-quote-form" in body else SHELL_FOOT)
         )
         target = OUT / f"{slug}.html"
         target.write_text(page)
