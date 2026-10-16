@@ -958,12 +958,12 @@ def write_robots():
     print(f"  wrote {target.relative_to(ROOT)}")
 
 
-# Netlify reads `_redirects` from the publish root. Pages are still files at
-# `/slug.html` (404.html must stay put — Netlify serves it for unknown paths).
-# Clean URLs are a 200 rewrite onto that file, and every `/slug.html` is a
-# forced 301 onto `/slug` so the file itself doesn't shadow the redirect.
-# `!` is required because the .html file exists. 404.html is not redirected;
-# Netlify needs that file at the publish root.
+# Netlify reads `_redirects` from the publish root. Pages stay at `/slug.html`
+# because that is what already serves `/slug` with a 200 (pretty URLs) and
+# 301s `/slug/` to `/slug`. A 200 rewrite from `/slug` back to `/slug.html`
+# loops: the host then redirects the html path to the clean path again.
+# `301!` forces `/slug.html` onto `/slug` even though the file exists.
+# 404.html is not redirected; Netlify needs that file at the publish root.
 #
 # Old-site paths that still get impressions 301 onto the current page.
 # `/hibu-video-splash` is a leftover from the previous provider.
@@ -986,9 +986,7 @@ def write_redirects(slugs):
     for slug in slugs:
         if slug in ("index", "404"):
             continue
-        # Forced 301 first, then the rewrite that serves the file at the clean URL.
         lines.append(f"/{slug}.html  /{slug}  301!")
-        lines.append(f"/{slug}  /{slug}.html  200")
     text = "\n".join(lines) + "\n"
     target = OUT / "_redirects"
     target.write_text(text)
