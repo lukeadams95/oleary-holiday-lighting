@@ -123,17 +123,42 @@
     startAutoplay();
   });
 
+  /* ------------------------------------------------------- motion pause --- */
+  /* Snowfall and the wreath accent run a few iterations, and pause off-screen. */
+  if ('IntersectionObserver' in window) {
+    var motionTargets = document.querySelectorAll('.snow, .wreath-accent');
+    if (motionTargets.length) {
+      var motionObserver = new IntersectionObserver(function (entries) {
+        Array.prototype.forEach.call(entries, function (entry) {
+          entry.target.classList.toggle('is-paused', !entry.isIntersecting);
+        });
+      });
+      Array.prototype.forEach.call(motionTargets, function (el) {
+        motionObserver.observe(el);
+      });
+    }
+  }
+
+  /* -------------------------------------------------------------- phone --- */
+  Array.prototype.forEach.call(document.querySelectorAll('a[href^="tel:"]'), function (link) {
+    link.addEventListener('click', function () {
+      if (typeof window.__loadGtag === 'function') window.__loadGtag();
+      if (typeof gtag === 'function') gtag('event', 'phone_click');
+    });
+  });
+
   /* ---------------------------------------------------------------- form --- */
-  /* TODO(deploy): point every <form data-quote-form> at a real handler —
-     set its `action` to your Formspree/CRM/webhook endpoint and delete the
-     placeholder-guard block below. Until then, submitting redirects to
-     /thank-you instead of posting to the placeholder endpoint.
-     The lead-notification email (send-lead-notification) fires on every
-     submission regardless, in parallel with whatever the form's own action
-     does — it never blocks or interferes with that submission. */
+  /* Quote and contact forms post to /send-lead-notification, then go to
+     /thank-you. generate_lead fires only after that call returns ok.
+     A ~1.5s fallback navigates even if the call hangs; a failed call still
+     navigates and skips the event. Turnstile loads on the first focus or
+     input, and submit stays blocked until a token exists. */
   var PLACEHOLDER_ACTION = 'https://example.invalid/oleary-quote-endpoint';
   var LEAD_NOTIFICATION_ENDPOINT = '/send-lead-notification';
+  var NAV_FALLBACK_MS = 1500;
   var forms = document.querySelectorAll('form[data-quote-form]');
+  var turnstileLoading = false;
+  var turnstileReady = false;
 
   function collectFormFields(form) {
     var data = new FormData(form);
@@ -145,21 +170,55 @@
     return fields;
   }
 
-  function notifyLead(form) {
-    fetch(LEAD_NOTIFICATION_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(collectFormFields(form)),
-      keepalive: true
-    }).then(function (res) {
-      if (!res.ok) throw new Error('send-lead-notification responded ' + res.status);
-    }).catch(function (err) {
-      // Best-effort only: never blocks navigation or shows a user-facing error.
-      console.error('Lead notification failed:', err);
+  function renderTurnstile(form) {
+    if (!window.turnstile) return;
+    var widgets = form
+      ? form.querySelectorAll('.cf-turnstile')
+      : document.querySelectorAll('.cf-turnstile');
+    Array.prototype.forEach.call(widgets, function (el) {
+      if (el.getAttribute('data-rendered') === 'true') return;
+      var sitekey = el.getAttribute('data-sitekey');
+      if (!sitekey) return;
+      el.setAttribute('data-rendered', 'true');
+      window.turnstile.render(el, { sitekey: sitekey });
     });
   }
 
+  function loadTurnstile(form) {
+    if (turnstileReady) {
+      renderTurnstile(form);
+      return;
+    }
+    if (turnstileLoading) return;
+    if (!document.querySelector('.cf-turnstile')) return;
+    turnstileLoading = true;
+    window.onOlearyTurnstileLoad = function () {
+      turnstileReady = true;
+      renderTurnstile();
+    };
+    var script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onOlearyTurnstileLoad';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
+  function goToThankYou(form, recordLead) {
+    if (form.__thankYouNavigated) return;
+    form.__thankYouNavigated = true;
+    if (recordLead && typeof gtag === 'function') {
+      if (typeof window.__loadGtag === 'function') window.__loadGtag();
+      gtag('event', 'generate_lead', {
+        form_name: form.dataset.formName || form.id
+      });
+    }
+    window.location.href = '/thank-you';
+  }
+
   Array.prototype.forEach.call(forms, function (form) {
+    form.addEventListener('focusin', function () { loadTurnstile(form); });
+    form.addEventListener('input', function () { loadTurnstile(form); });
+
     form.addEventListener('submit', function (event) {
       if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
 
@@ -168,18 +227,57 @@
       var token = form.querySelector('[name="cf-turnstile-response"]');
       if (form.querySelector('.cf-turnstile') && (!token || !token.value)) {
         event.preventDefault();
+        loadTurnstile(form);
         window.alert('Please complete the security check before submitting.');
         return;
       }
 
-      // Fires in parallel with the form's own submission below — doesn't
-      // await or gate on it either way.
-      notifyLead(form);
+      if (form.getAttribute('action') !== PLACEHOLDER_ACTION) {
+        // A real endpoint is wired up — let the browser submit it. The lead
+        // notification still fires, and generate_lead only on a successful
+        // response (navigation is the browser's, so the fallback doesn't apply).
+        fetch(LEAD_NOTIFICATION_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(collectFormFields(form)),
+          keepalive: true
+        }).then(function (res) {
+          if (res.ok && typeof gtag === 'function') {
+            gtag('event', 'generate_lead', {
+              form_name: form.dataset.formName || form.id
+            });
+          }
+        }).catch(function (err) {
+          console.error('Lead notification failed:', err);
+        });
+        return;
+      }
 
-      if (form.getAttribute('action') !== PLACEHOLDER_ACTION) return; // real endpoint wired up — let it submit/navigate normally
       event.preventDefault();
+      var settled = false;
+      var timer = window.setTimeout(function () {
+        if (settled) return;
+        settled = true;
+        goToThankYou(form, false);
+      }, NAV_FALLBACK_MS);
 
-      window.location.href = '/thank-you';
+      fetch(LEAD_NOTIFICATION_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(collectFormFields(form)),
+        keepalive: true
+      }).then(function (res) {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
+        goToThankYou(form, res.ok);
+      }).catch(function (err) {
+        console.error('Lead notification failed:', err);
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
+        goToThankYou(form, false);
+      });
     });
   });
 })();

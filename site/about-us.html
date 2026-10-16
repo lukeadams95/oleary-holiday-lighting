@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD7LE5J4YS"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-RD7LE5J4YS');
+  (function () {
+    var started = false;
+    function loadGtag() {
+      if (started) return;
+      started = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RD7LE5J4YS';
+      s.onload = function () { window.__gtagReady = true; };
+      document.head.appendChild(s);
+    }
+    window.__loadGtag = loadGtag;
+    ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
+    window.setTimeout(loadGtag, 3000);
+  })();
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Firefighter-Owned Christmas Lights | About O'Leary</title>
+<title>About O'Leary Holiday Lighting | Firefighter-Owned, Kansas City</title>
 <meta name="description" content="Firefighter owned, and Christmas lights are all we do. Meet Tommy O'Leary and the crew that shows up in October and is still on your roof in January.">
-<link rel="canonical" href="https://www.olearyholidaylighting.com/about-us.html">
+<link rel="canonical" href="https://www.olearyholidaylighting.com/about-us">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="O'Leary Holiday Lighting">
-<meta property="og:title" content="Firefighter-Owned Christmas Lights | About O'Leary">
+<meta property="og:title" content="About O'Leary Holiday Lighting | Firefighter-Owned, Kansas City">
 <meta property="og:description" content="Firefighter owned, and Christmas lights are all we do. Meet Tommy O'Leary and the crew that shows up in October and is still on your roof in January.">
-<meta property="og:url" content="https://www.olearyholidaylighting.com/about-us.html">
+<meta property="og:url" content="https://www.olearyholidaylighting.com/about-us">
 <meta property="og:image" content="https://www.olearyholidaylighting.com/images/tommy-oleary.webp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Firefighter-Owned Christmas Lights | About O'Leary">
+<meta name="twitter:title" content="About O'Leary Holiday Lighting | Firefighter-Owned, Kansas City">
 <meta name="twitter:description" content="Firefighter owned, and Christmas lights are all we do. Meet Tommy O'Leary and the crew that shows up in October and is still on your roof in January.">
 <meta name="twitter:image" content="https://www.olearyholidaylighting.com/images/tommy-oleary.webp">
 <script type="application/ld+json">
@@ -140,7 +154,7 @@
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://www.olearyholidaylighting.com/about-us.html#breadcrumb",
+      "@id": "https://www.olearyholidaylighting.com/about-us#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -152,7 +166,7 @@
           "@type": "ListItem",
           "position": 2,
           "name": "About Us",
-          "item": "https://www.olearyholidaylighting.com/about-us.html"
+          "item": "https://www.olearyholidaylighting.com/about-us"
         }
       ]
     }
@@ -160,16 +174,1387 @@
 }
 </script>
 
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#C8102E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&amp;family=Archivo:wght@400;600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css">
+<link rel="preload" href="/fonts/bitter-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/images/hero-house-800.webp" imagesrcset="/images/hero-house-800.webp 800w, /images/hero-house.webp 1600w" imagesizes="100vw" fetchpriority="high">
+<style>
+@font-face {
+  font-family: Archivo;
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/archivo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Bitter;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/bitter-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.nav__link:hover, .nav__link.is-active {
+  color: var(--red);
+}
+
+.hero__bg, .tile__media > img, .cta-banner__bg > img, .carousel__slide > img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, :before, :after {
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (width <= 1200px) {
+  .site-header__bar {
+    gap: 24px;
+    padding: 0 24px;
+  }
+
+  .nav {
+    gap: 22px;
+    font-size: 18px;
+  }
+
+  .cities {
+    gap: 24px;
+  }
+
+  .cities__photo {
+    width: 220px;
+  }
+}
+
+@media (width <= 1000px) {
+  :root {
+    --section-y: 72px;
+  }
+}
+
+@media (width <= 900px) {
+  .nav, .site-header__cta {
+    display: none;
+  }
+
+  .nav-burger {
+    display: flex;
+  }
+
+  .site-header__bar {
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+
+  .site-header__logo img {
+    width: 98px;
+    height: 64px;
+  }
+
+  :root {
+    --header-h: 72px;
+  }
+}
+
+@media (width <= 760px) {
+  .cities {
+    grid-template-columns: 1fr;
+  }
+
+  .cities__photo {
+    width: 100%;
+    max-width: 340px;
+    height: 360px;
+    margin: 0 auto;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .btn-row {
+    flex-direction: column;
+  }
+
+  .hero .btn-row {
+    align-items: stretch;
+  }
+
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .site-footer__bar {
+    flex-direction: column;
+  }
+
+  .tile, .carousel__viewport {
+    min-height: 300px;
+  }
+
+  .carousel__arrow {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (width <= 480px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@media (width <= 1000px) {
+  .section--split {
+    padding: 84px 0;
+  }
+
+  .split, .split--photo-first {
+    grid-template-columns: 1fr;
+  }
+
+  .split--photo-first .split__copy {
+    order: 2;
+  }
+
+  .split__copy {
+    max-width: none;
+  }
+}
+
+@media (width <= 760px) {
+  .section--split {
+    padding: 64px 0;
+  }
+}
+
+@font-face {
+  font-family: Archivo;
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/archivo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Bitter;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/bitter-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+*, :before, :after {
+  box-sizing: border-box;
+}
+
+.nav__link:hover, .nav__link.is-active {
+  color: var(--red);
+}
+
+.hero__bg, .tile__media > img, .cta-banner__bg > img, .carousel__slide > img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, :before, :after {
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (width <= 1200px) {
+  .site-header__bar {
+    gap: 24px;
+    padding: 0 24px;
+  }
+
+  .nav {
+    gap: 22px;
+    font-size: 18px;
+  }
+
+  .cities {
+    gap: 24px;
+  }
+
+  .cities__photo {
+    width: 220px;
+  }
+}
+
+@media (width <= 1000px) {
+  :root {
+    --section-y: 72px;
+  }
+}
+
+@media (width <= 900px) {
+  .nav, .site-header__cta {
+    display: none;
+  }
+
+  .nav-burger {
+    display: flex;
+  }
+
+  .site-header__bar {
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+
+  .site-header__logo img {
+    width: 98px;
+    height: 64px;
+  }
+
+  :root {
+    --header-h: 72px;
+  }
+}
+
+@media (width <= 760px) {
+  .cities {
+    grid-template-columns: 1fr;
+  }
+
+  .cities__photo {
+    width: 100%;
+    max-width: 340px;
+    height: 360px;
+    margin: 0 auto;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .btn-row {
+    flex-direction: column;
+  }
+
+  .hero .btn-row {
+    align-items: stretch;
+  }
+
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .site-footer__bar {
+    flex-direction: column;
+  }
+
+  .tile, .carousel__viewport {
+    min-height: 300px;
+  }
+
+  .carousel__arrow {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (width <= 480px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@media (width <= 1000px) {
+  .section--split {
+    padding: 84px 0;
+  }
+
+  .split, .split--photo-first {
+    grid-template-columns: 1fr;
+  }
+
+  .split--photo-first .split__copy {
+    order: 2;
+  }
+
+  .split__copy {
+    max-width: none;
+  }
+}
+
+@media (width <= 760px) {
+  .section--split {
+    padding: 64px 0;
+  }
+}
+
+@font-face {
+  font-family: Archivo;
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/archivo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Bitter;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/bitter-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --red: #c8102e;
+  --red-deep: #8e0b20;
+  --red-band: #e95259;
+  --white: #fff;
+  --warm: #faf7f4;
+  --ink: #1a1a1a;
+  --ink-60: #4a4a4a;
+  --night: #0e1420;
+  --border: #eae6e1;
+  --glow: #f5c563;
+  --font-display: Bitter, Georgia, "Times New Roman", serif;
+  --font-body: Archivo, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --container: 1248px;
+  --header-h: 88px;
+  --section-y: 96px;
+  --radius-card: 12px;
+  --radius-tile: 16px;
+  --shadow-tile: 0 8px 24px #0000001a;
+  --shadow-tile-strong: 0 8px 24px #0003;
+}
+
+*, :before, :after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 24px);
+}
+
+body {
+  padding-top: var(--header-h);
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--red);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--red-deep);
+}
+
+h1, h2 {
+  font-family: var(--font-display);
+  margin: 0;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  z-index: 1000;
+  background: var(--red);
+  color: var(--white);
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-weight: 600;
+  transition: top .15s;
+  position: absolute;
+  top: -48px;
+  left: 8px;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+.breadcrumb {
+  border-bottom: 1px solid var(--border);
+  background: var(--warm);
+  padding: 14px 0;
+}
+
+.breadcrumb ol {
+  color: var(--ink-60);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  list-style: none;
+  display: flex;
+}
+
+.breadcrumb li:not(:last-child):after {
+  content: "/";
+  color: var(--border);
+  margin-left: 8px;
+}
+
+.breadcrumb a {
+  color: var(--ink-60);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--red);
+  text-decoration: underline;
+}
+
+.breadcrumb li[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: var(--section-y)0;
+}
+
+.section--tall {
+  padding: 126px 0;
+}
+
+.section--white {
+  background: var(--white);
+}
+
+.section--warm {
+  background: var(--warm);
+}
+
+.section--red {
+  background: var(--red-band);
+  color: var(--white);
+}
+
+.h1 {
+  color: var(--white);
+  margin: 0 0 28px;
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.1;
+}
+
+.h2 {
+  color: var(--red);
+  margin: 0 0 12px;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.15;
+}
+
+.section--red .h2 {
+  color: var(--white);
+}
+
+.note {
+  color: var(--ink-60);
+  text-align: center;
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.btn {
+  min-height: 56px;
+  font-family: var(--font-body);
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background .15s, color .15s, border-color .15s;
+  display: inline-flex;
+}
+
+.btn--sm {
+  padding: 0 32px;
+  font-size: 16px;
+}
+
+.btn--primary {
+  background: var(--red);
+  color: var(--white);
+}
+
+.btn--primary:hover {
+  background: var(--red-deep);
+  color: var(--white);
+}
+
+.btn--outline-light {
+  color: var(--white);
+  border: 2px solid var(--white);
+  background: none;
+}
+
+.btn--outline-light:hover {
+  color: var(--white);
+  background: #ffffff26;
+}
+
+.btn-row {
+  flex-wrap: wrap;
+  gap: 16px;
+  display: flex;
+}
+
+.btn-row--cta {
+  justify-content: center;
+  gap: 24px;
+}
+
+.site-header {
+  z-index: 50;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.site-header__bar {
+  height: var(--header-h);
+  max-width: var(--container);
+  align-items: stretch;
+  gap: 20px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+}
+
+.site-header__logo {
+  flex: none;
+  align-items: center;
+  padding: 4px 0;
+  display: flex;
+}
+
+.site-header__logo img {
+  object-fit: contain;
+  width: 123px;
+  height: 81px;
+}
+
+.nav {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+}
+
+.nav__link {
+  color: var(--ink);
+  padding-bottom: 8px;
+  position: relative;
+}
+
+.nav__link:hover, .nav__link.is-active {
+  color: var(--red);
+}
+
+.nav__link.is-active:after {
+  content: "";
+  background: var(--red);
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.nav__item {
+  align-items: center;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.dropdown {
+  background: var(--white);
+  border: 1px solid var(--border);
+  opacity: 0;
+  visibility: hidden;
+  border-radius: 8px;
+  flex-direction: column;
+  min-width: 220px;
+  padding: 8px;
+  transition: opacity .15s;
+  display: flex;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%);
+  box-shadow: 0 8px 24px #0000001f;
+}
+
+.nav__item:hover .dropdown, .nav__item:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown a {
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 17px;
+}
+
+.dropdown a:hover {
+  color: var(--red);
+  background: var(--warm);
+}
+
+.site-header__cta {
+  align-items: center;
+  gap: 20px;
+  display: flex;
+}
+
+.site-header__phone {
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.site-header__phone:hover {
+  color: var(--red);
+}
+
+.site-header__quote {
+  background: var(--red);
+  color: var(--white);
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.site-header__quote:hover {
+  background: var(--red-deep);
+  color: var(--white);
+}
+
+.nav-burger {
+  cursor: pointer;
+  background: none;
+  border: none;
+  align-items: center;
+  padding: 8px;
+  display: none;
+}
+
+.mobile-menu {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  max-height: calc(100vh - var(--header-h));
+  flex-direction: column;
+  padding: 8px 24px 16px;
+  display: none;
+  overflow-y: auto;
+  box-shadow: 0 8px 16px #00000014;
+}
+
+.mobile-menu a {
+  color: var(--ink);
+  border-left: 3px solid #0000;
+  padding: 12px 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mobile-menu a.is-sub {
+  padding-left: 26px;
+  font-size: 16px;
+}
+
+.mobile-menu a.is-active {
+  color: var(--red);
+  border-left-color: var(--red);
+}
+
+.hero {
+  background: var(--night);
+  align-items: center;
+  min-height: 420px;
+  padding: 72px 0;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__bg, .tile__media > img, .cta-banner__bg > img, .carousel__slide > img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.hero__scrim {
+  background: #0e14208c;
+  position: absolute;
+  inset: 0;
+}
+
+.hero > .container {
+  z-index: 2;
+  position: relative;
+}
+
+.hero__copy {
+  max-width: 760px;
+}
+
+.hero__sub {
+  color: var(--white);
+  opacity: .92;
+  max-width: 600px;
+  margin: 0 0 32px;
+  font-size: clamp(17px, 1.6vw, 20px);
+  line-height: 1.5;
+}
+
+.tile {
+  border-radius: var(--radius-tile);
+  box-shadow: var(--shadow-tile-strong);
+  min-height: 420px;
+  position: relative;
+}
+
+.tile__media {
+  border-radius: var(--radius-tile);
+  background-position: 50%;
+  background-size: cover;
+  background-color: var(--night);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.tile__placeholder {
+  color: var(--white);
+  text-align: center;
+  max-width: 340px;
+  padding: 0 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 15px;
+}
+
+.badge {
+  background: var(--red);
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translate(-50%);
+  box-shadow: 0 4px 12px #0003;
+}
+
+.has-badge {
+  padding-bottom: calc(var(--section-y) + 18px);
+}
+
+.carousel {
+  position: relative;
+}
+
+.carousel__viewport {
+  border-radius: var(--radius-tile);
+  min-height: 420px;
+  box-shadow: var(--shadow-tile-strong);
+  background-color: var(--night);
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel__slide {
+  opacity: 0;
+  background-position: 50%;
+  background-size: cover;
+  transition: opacity .6s;
+  position: absolute;
+  inset: 0;
+}
+
+.carousel__slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel__arrow {
+  background: var(--white);
+  width: 44px;
+  height: 44px;
+  color: var(--red);
+  cursor: pointer;
+  z-index: 2;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 12px #00000040;
+}
+
+.carousel__arrow:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
+.carousel__arrow--prev {
+  left: 14px;
+}
+
+.carousel__arrow--next {
+  right: 14px;
+}
+
+.carousel__dots {
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  display: flex;
+}
+
+.carousel__dot {
+  background: var(--border);
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  width: 9px;
+  height: 9px;
+  padding: 0;
+}
+
+.carousel__dot.is-active {
+  background: var(--red);
+}
+
+.cities {
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+}
+
+.cities__col {
+  flex-direction: column;
+  gap: 16px;
+  display: flex;
+}
+
+.cities__photo {
+  width: 280px;
+  height: 420px;
+  position: relative;
+}
+
+.city-pill {
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink);
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+}
+
+.city-pill:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.cta-banner {
+  background: var(--night);
+  border-top: 4px solid var(--red);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-height: 420px;
+  padding: 72px 0;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner__bg {
+  background-position: 50%;
+  background-size: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.cta-banner__scrim {
+  background: var(--night);
+  opacity: .65;
+  position: absolute;
+  inset: 0;
+}
+
+.cta-banner__inner {
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+
+.cta-banner h2 {
+  color: var(--white);
+  margin: 0 0 16px;
+}
+
+.cta-banner__line {
+  color: var(--white);
+  opacity: .85;
+  margin: 0 0 36px;
+  font-size: clamp(18px, 1.7vw, 21px);
+  font-weight: 700;
+}
+
+.site-footer {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 64px 0 32px;
+}
+
+.site-footer__grid {
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 48px;
+  display: grid;
+}
+
+.site-footer img {
+  object-fit: contain;
+  width: auto;
+  height: 110px;
+}
+
+.site-footer__blurb {
+  color: var(--ink-60);
+  max-width: 240px;
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.site-footer__contact {
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  display: flex;
+}
+
+.site-footer__contact a {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.site-footer__contact a:hover {
+  color: var(--red);
+}
+
+.social {
+  gap: 12px;
+  margin-top: 20px;
+  display: flex;
+}
+
+.social a {
+  border: 1px solid var(--border);
+  width: 36px;
+  height: 36px;
+  color: var(--ink);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.social a:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.social__fb {
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.social__ig {
+  border-radius: 6px;
+}
+
+.social__ig span {
+  border: 2px solid;
+  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  display: block;
+  position: relative;
+}
+
+.social__ig span span {
+  background: currentColor;
+  border: none;
+  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+}
+
+.site-footer__col-title {
+  color: var(--ink);
+  letter-spacing: .5px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.site-footer__links {
+  flex-direction: column;
+  gap: 10px;
+  display: flex;
+}
+
+.site-footer__links a {
+  color: var(--ink-60);
+  font-size: 16px;
+}
+
+.site-footer__links a:hover {
+  color: var(--red);
+}
+
+.site-footer__bar {
+  border-top: 1px solid var(--border);
+  color: var(--ink-60);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 24px;
+  font-size: 15px;
+  display: flex;
+}
+
+.site-footer__bar a {
+  color: var(--ink-60);
+}
+
+.site-footer__bar a:hover {
+  color: var(--red);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, :before, :after {
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (width <= 1200px) {
+  .site-header__bar {
+    gap: 24px;
+    padding: 0 24px;
+  }
+
+  .nav {
+    gap: 22px;
+    font-size: 18px;
+  }
+
+  .cities {
+    gap: 24px;
+  }
+
+  .cities__photo {
+    width: 220px;
+  }
+}
+
+@media (width <= 1000px) {
+  :root {
+    --section-y: 72px;
+  }
+}
+
+@media (width <= 900px) {
+  .nav, .site-header__cta {
+    display: none;
+  }
+
+  .nav-burger {
+    display: flex;
+  }
+
+  .site-header__bar {
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+
+  .site-header__logo img {
+    width: 98px;
+    height: 64px;
+  }
+
+  :root {
+    --header-h: 72px;
+  }
+}
+
+@media (width <= 760px) {
+  .cities {
+    grid-template-columns: 1fr;
+  }
+
+  .cities__photo {
+    width: 100%;
+    max-width: 340px;
+    height: 360px;
+    margin: 0 auto;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .btn-row {
+    flex-direction: column;
+  }
+
+  .hero .btn-row {
+    align-items: stretch;
+  }
+
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .site-footer__bar {
+    flex-direction: column;
+  }
+
+  .tile, .carousel__viewport {
+    min-height: 300px;
+  }
+
+  .carousel__arrow {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (width <= 480px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}
+
+.hero--center {
+  text-align: center;
+}
+
+.hero--center .hero__copy {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero--center .hero__sub {
+  text-shadow: 0 0 14px #ffffff80;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero--center .btn-row {
+  justify-content: center;
+}
+
+.split {
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 32px;
+  display: grid;
+}
+
+.split--photo-first {
+  grid-template-columns: .9fr 1.1fr;
+}
+
+.split__copy {
+  max-width: 560px;
+}
+
+.split__copy p {
+  color: var(--ink-60);
+  margin: 0 0 20px;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.split__copy p:last-child {
+  margin-bottom: 0;
+}
+
+.section--split {
+  padding: 130px 0;
+}
+
+@media (width <= 1000px) {
+  .section--split {
+    padding: 84px 0;
+  }
+
+  .split, .split--photo-first {
+    grid-template-columns: 1fr;
+  }
+
+  .split--photo-first .split__copy {
+    order: 2;
+  }
+
+  .split__copy {
+    max-width: none;
+  }
+}
+
+@media (width <= 760px) {
+  .section--split {
+    padding: 64px 0;
+  }
+}
+
+.intro-copy {
+  color: var(--ink-60);
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: clamp(18px, 1.7vw, 20px);
+  line-height: 1.7;
+}
+
+.section--red .intro-copy {
+  color: var(--white);
+}
+</style>
+<link rel="stylesheet" href="/css/site.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/css/site.css"></noscript>
 <script>
   /* Feedbucket review widget — preview host only, never the live site. */
   if (location.hostname === "oleary-holiday-lighting.pages.dev") {
@@ -189,32 +1574,32 @@
 <!-- ===================================================== HEADER ========= -->
 <header class="site-header">
   <div class="site-header__bar">
-    <a class="site-header__logo" href="index.html">
-      <img src="images/logo.webp" alt="O'Leary Holiday Lighting" width="123" height="81">
+    <a class="site-header__logo" href="/">
+      <img src="/images/logo.webp" alt="O'Leary Holiday Lighting" width="123" height="81">
     </a>
 
     <nav class="nav" aria-label="Main">
-      <a class="nav__link" href="index.html">Home</a>
+      <a class="nav__link" href="/">Home</a>
       <div class="nav__item">
-        <a class="nav__link" href="services.html" aria-haspopup="true">Services</a>
+        <a class="nav__link" href="/services" aria-haspopup="true">Services</a>
         <div class="dropdown">
-          <a href="roofline-lighting.html">Roofline Lighting</a>
-          <a href="wreaths.html">Wreaths</a>
-          <a href="tree-bush-lighting.html">Tree &amp; Bush Lighting</a>
-          <a href="ground-lighting.html">Ground Lighting</a>
-          <a href="maintenance-storage.html">Maintenance &amp; Storage</a>
+          <a href="/roofline-lighting">Roofline Lighting</a>
+          <a href="/wreaths">Wreaths</a>
+          <a href="/tree-bush-lighting">Tree &amp; Bush Lighting</a>
+          <a href="/ground-lighting">Ground Lighting</a>
+          <a href="/maintenance-storage">Maintenance &amp; Storage</a>
         </div>
       </div>
-      <a class="nav__link is-active" href="about-us.html" aria-current="page">About Us</a>
-      <a class="nav__link" href="reviews.html">Reviews</a>
-      <a class="nav__link" href="service-areas.html">Service Areas</a>
-      <a class="nav__link" href="faq.html">FAQ</a>
-      <a class="nav__link" href="contact.html">Contact</a>
+      <a class="nav__link is-active" href="/about-us" aria-current="page">About Us</a>
+      <a class="nav__link" href="/reviews">Reviews</a>
+      <a class="nav__link" href="/service-areas">Service Areas</a>
+      <a class="nav__link" href="/faq">FAQ</a>
+      <a class="nav__link" href="/contact">Contact</a>
     </nav>
 
     <div class="site-header__cta">
       <a class="site-header__phone" href="tel:9134268386">(913) 426-8386</a>
-      <a class="site-header__quote" href="request-a-quote.html">Request a Quote</a>
+      <a class="site-header__quote" href="/request-a-quote">Request a Quote</a>
     </div>
 
     <button class="nav-burger" type="button" aria-label="Menu" aria-expanded="false">
@@ -223,19 +1608,19 @@
   </div>
 
   <nav class="mobile-menu" aria-label="Mobile">
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a class="is-sub" href="roofline-lighting.html">Roofline Lighting</a>
-    <a class="is-sub" href="wreaths.html">Wreaths</a>
-    <a class="is-sub" href="tree-bush-lighting.html">Tree &amp; Bush Lighting</a>
-    <a class="is-sub" href="ground-lighting.html">Ground Lighting</a>
-    <a class="is-sub" href="maintenance-storage.html">Maintenance &amp; Storage</a>
-    <a class="is-active" href="about-us.html" aria-current="page">About Us</a>
-    <a href="reviews.html">Reviews</a>
-    <a href="service-areas.html">Service Areas</a>
-    <a href="faq.html">FAQ</a>
-    <a href="contact.html">Contact</a>
-    <a href="request-a-quote.html">Request a Quote</a>
+    <a href="/">Home</a>
+    <a href="/services">Services</a>
+    <a class="is-sub" href="/roofline-lighting">Roofline Lighting</a>
+    <a class="is-sub" href="/wreaths">Wreaths</a>
+    <a class="is-sub" href="/tree-bush-lighting">Tree &amp; Bush Lighting</a>
+    <a class="is-sub" href="/ground-lighting">Ground Lighting</a>
+    <a class="is-sub" href="/maintenance-storage">Maintenance &amp; Storage</a>
+    <a class="is-active" href="/about-us" aria-current="page">About Us</a>
+    <a href="/reviews">Reviews</a>
+    <a href="/service-areas">Service Areas</a>
+    <a href="/faq">FAQ</a>
+    <a href="/contact">Contact</a>
+    <a href="/request-a-quote">Request a Quote</a>
   </nav>
 </header>
 
@@ -243,7 +1628,7 @@
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <div class="container">
     <ol>
-      <li><a href="index.html">Home</a></li>
+      <li><a href="/">Home</a></li>
       <li aria-current="page">About Us</li>
     </ol>
   </div>
@@ -252,14 +1637,14 @@
 
   <!-- =================================================== HERO =========== -->
   <section class="hero hero--center">
-    <div class="hero__bg" style="background-image:url('images/hero-house.webp')"></div>
+    <img class="hero__bg" src="/images/hero-house.webp" srcset="/images/hero-house-800.webp 800w, /images/hero-house.webp 1600w" sizes="100vw" fetchpriority="high" decoding="async" width="1600" height="739" alt="Roofline Christmas lights on a Kansas City home">
     <div class="hero__scrim"></div>
     <div class="container">
       <div class="hero__copy">
-        <h1 class="h1" style="margin-bottom:24px">Firefighter owned. Christmas lights are all we do.</h1>
+        <h1 class="h1" style="margin-bottom:24px">Firefighter-Owned Christmas Light Installers in Johnson County</h1>
         <p class="hero__sub">A Johnson County crew that shows up in October and is still on your roof in January.</p>
         <div class="btn-row">
-          <a class="btn btn--sm btn--primary" href="request-a-quote.html">Request a Free Quote</a>
+          <a class="btn btn--sm btn--primary" href="/request-a-quote">Request a Free Quote</a>
           <a class="btn btn--sm btn--outline-light" href="tel:9134268386">Call (913) 426-8386</a>
         </div>
       </div>
@@ -271,7 +1656,7 @@
     <div class="container">
       <div class="split split--photo-first">
         <div class="tile" style="min-height:460px">
-          <div class="tile__media" style="background-image:url('images/tommy-oleary.webp');background-position:center 20%"></div>
+          <div class="tile__media"><img src="/images/tommy-oleary.webp" alt="" loading="lazy" decoding="async" width="1200" height="2597" style="object-position:center 20%"></div>
           <span class="badge">Meet Tommy</span>
         </div>
         <div class="split__copy">
@@ -302,8 +1687,8 @@
         </div>
         <div class="carousel" data-carousel>
           <div class="carousel__viewport">
-            <div class="carousel__slide is-active" style="background-image:url('images/firefighter-owned-scene.webp')"></div>
-            <div class="carousel__slide" style="background-image:url('images/firefighter-owned-rope-training.webp');background-position:center 35%"></div>
+            <div class="carousel__slide is-active"><img src="/images/firefighter-owned-scene.webp" alt="" loading="lazy" decoding="async" width="496" height="1080"></div>
+            <div class="carousel__slide"><img src="/images/firefighter-owned-rope-training.webp" alt="" loading="lazy" decoding="async" width="1200" height="1600" style="object-position:center 35%"></div>
             <span class="badge">Firefighter Owned</span>
           </div>
           <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Previous photo">
@@ -331,14 +1716,14 @@
         </div>
         <div class="carousel" data-carousel>
           <div class="carousel__viewport">
-            <div class="carousel__slide is-active" style="background-image:url('images/award-spring-hill-presentation.webp')"></div>
-            <div class="carousel__slide" style="background-image:url('images/award-kansas-business-presentation.webp');background-position:center 8%"></div>
-            <div class="carousel__slide" style="background-image:url('images/award-nextgen-trophy.webp')"></div>
-            <div class="carousel__slide" style="background-image:url('images/award-nextgen-capitol.webp')"></div>
-            <div class="carousel__slide" style="background-image:url('images/award-kansas-certificate.webp');background-position:center 70%"></div>
-            <div class="carousel__slide" style="background-image:url('images/award-spring-hill-plaque.webp')"></div>
-            <div class="carousel__slide" style="background-image:url('images/award-oleary-step-repeat.webp');background-position:center 12%"></div>
-            <div class="carousel__slide" style="background-image:url('images/award-nextgen-honorees-print.webp')"></div>
+            <div class="carousel__slide is-active"><img src="/images/award-spring-hill-presentation.webp" alt="" loading="lazy" decoding="async" width="1200" height="675"></div>
+            <div class="carousel__slide"><img src="/images/award-kansas-business-presentation.webp" alt="" loading="lazy" decoding="async" width="1080" height="1920" style="object-position:center 8%"></div>
+            <div class="carousel__slide"><img src="/images/award-nextgen-trophy.webp" alt="" loading="lazy" decoding="async" width="819" height="1773"></div>
+            <div class="carousel__slide"><img src="/images/award-nextgen-capitol.webp" alt="" loading="lazy" decoding="async" width="1200" height="675"></div>
+            <div class="carousel__slide"><img src="/images/award-kansas-certificate.webp" alt="" loading="lazy" decoding="async" width="1200" height="2597" style="object-position:center 70%"></div>
+            <div class="carousel__slide"><img src="/images/award-spring-hill-plaque.webp" alt="" loading="lazy" decoding="async" width="1200" height="2597"></div>
+            <div class="carousel__slide"><img src="/images/award-oleary-step-repeat.webp" alt="" loading="lazy" decoding="async" width="1200" height="2597" style="object-position:center 12%"></div>
+            <div class="carousel__slide"><img src="/images/award-nextgen-honorees-print.webp" alt="" loading="lazy" decoding="async" width="1200" height="554"></div>
             <span class="badge">Award-Winning</span>
           </div>
           <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Previous photo">
@@ -384,24 +1769,24 @@
       <h2 class="h2" style="text-align:center;margin-bottom:40px">Where we work</h2>
       <div class="cities">
         <div class="cities__col">
-          <a class="city-pill" href="service-areas.html">Overland Park</a>
-          <a class="city-pill" href="service-areas.html">Olathe</a>
-          <a class="city-pill" href="service-areas.html">Leawood</a>
-          <a class="city-pill" href="service-areas.html">Stilwell</a>
-          <a class="city-pill" href="service-areas.html">Louisburg</a>
-          <a class="city-pill" href="service-areas.html">Paola</a>
+          <a class="city-pill" href="/service-areas">Overland Park</a>
+          <a class="city-pill" href="/service-areas">Olathe</a>
+          <a class="city-pill" href="/service-areas">Leawood</a>
+          <a class="city-pill" href="/service-areas">Stilwell</a>
+          <a class="city-pill" href="/service-areas">Louisburg</a>
+          <a class="city-pill" href="/service-areas">Paola</a>
         </div>
         <div class="tile cities__photo">
-          <div class="tile__media" style="background-image:url('images/where-we-work.webp')"></div>
+          <div class="tile__media"><img src="/images/where-we-work.webp" alt="" loading="lazy" decoding="async" width="1200" height="2597"></div>
           <span class="badge">Firefighter Owned</span>
         </div>
         <div class="cities__col">
-          <a class="city-pill" href="service-areas.html">Lenexa</a>
-          <a class="city-pill" href="service-areas.html">Prairie Village</a>
-          <a class="city-pill" href="service-areas.html">Shawnee</a>
-          <a class="city-pill" href="service-areas.html">Spring Hill</a>
-          <a class="city-pill" href="service-areas.html">Blue Springs</a>
-          <a class="city-pill" href="service-areas.html">Lee's Summit</a>
+          <a class="city-pill" href="/service-areas">Lenexa</a>
+          <a class="city-pill" href="/service-areas">Prairie Village</a>
+          <a class="city-pill" href="/service-areas">Shawnee</a>
+          <a class="city-pill" href="/service-areas">Spring Hill</a>
+          <a class="city-pill" href="/service-areas">Blue Springs</a>
+          <a class="city-pill" href="/service-areas">Lee's Summit</a>
         </div>
       </div>
       <p class="note">and the surrounding Kansas City metro.</p>
@@ -410,13 +1795,13 @@
   </section>
 
   <section class="cta-banner">
-    <div class="cta-banner__bg" style="background-image:url('images/cta-house-lit.webp')"></div>
+    <div class="cta-banner__bg"><img src="/images/cta-house-lit.webp" alt="" loading="lazy" decoding="async" width="1200" height="554"></div>
     <div class="cta-banner__scrim"></div>
     <div class="cta-banner__inner">
       <h2 class="h2">Let's light up your house.</h2>
       <p class="cta-banner__line">Free on-site quote. Booking now for the 2026 season.</p>
       <div class="btn-row btn-row--cta">
-        <a class="btn btn--primary" href="request-a-quote.html">Request a Free Quote</a>
+        <a class="btn btn--primary" href="/request-a-quote">Request a Free Quote</a>
         <a class="btn btn--outline-light" href="tel:9134268386">Call (913) 426-8386</a>
       </div>
     </div>
@@ -430,7 +1815,7 @@
   <div class="container">
     <div class="site-footer__grid">
       <div>
-        <img src="images/logo.webp" alt="O'Leary Holiday Lighting" width="161" height="110" loading="lazy">
+        <img src="/images/logo.webp" alt="O'Leary Holiday Lighting" width="161" height="110" loading="lazy">
         <p class="site-footer__blurb">Custom Christmas light installation for Johnson County, Kansas.</p>
         <div class="site-footer__contact">
           <a href="tel:9134268386">(913) 426-8386</a>
@@ -443,39 +1828,39 @@
       <div>
         <p class="site-footer__col-title">SERVICES</p>
         <div class="site-footer__links">
-          <a href="roofline-lighting.html">Roofline Lighting</a>
-          <a href="wreaths.html">Wreaths</a>
-          <a href="tree-bush-lighting.html">Tree &amp; Bush Lighting</a>
-          <a href="ground-lighting.html">Ground Lighting</a>
-          <a href="maintenance-storage.html">Maintenance &amp; Storage</a>
+          <a href="/roofline-lighting">Roofline Lighting</a>
+          <a href="/wreaths">Wreaths</a>
+          <a href="/tree-bush-lighting">Tree &amp; Bush Lighting</a>
+          <a href="/ground-lighting">Ground Lighting</a>
+          <a href="/maintenance-storage">Maintenance &amp; Storage</a>
         </div>
       </div>
       <div>
         <p class="site-footer__col-title">COMPANY</p>
         <div class="site-footer__links">
-          <a href="about-us.html">About Us</a>
-          <a href="reviews.html">Reviews</a>
-          <a href="faq.html">FAQ</a>
-          <a href="contact.html">Contact</a>
+          <a href="/about-us">About Us</a>
+          <a href="/reviews">Reviews</a>
+          <a href="/faq">FAQ</a>
+          <a href="/contact">Contact</a>
         </div>
       </div>
       <div>
         <p class="site-footer__col-title">SERVICE AREAS</p>
         <div class="site-footer__links">
-          <a href="service-areas.html">Overland Park</a>
-          <a href="service-areas.html">Olathe</a>
-          <a href="service-areas.html">Leawood</a>
-          <a href="service-areas.html">Lenexa</a>
+          <a href="/service-areas">Overland Park</a>
+          <a href="/service-areas">Olathe</a>
+          <a href="/service-areas">Leawood</a>
+          <a href="/service-areas">Lenexa</a>
         </div>
       </div>
     </div>
     <div class="site-footer__bar">
       <span>&copy; 2026 O'Leary Holiday Lighting LLC &middot; Overland Park, KS</span>
-      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="/privacy-policy">Privacy Policy</a>
     </div>
   </div>
 </footer>
 
-<script src="js/site.js"></script>
+<script src="/js/site.js"></script>
 </body>
 </html>

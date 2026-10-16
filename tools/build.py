@@ -25,6 +25,7 @@ child to highlight.
 import json
 import pathlib
 import re
+import struct
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ROOT / "tools" / "pages"
@@ -36,7 +37,8 @@ SITEMAP_EXCLUDE = {"thank-you", "404"}
 
 
 def page_url(slug):
-    return SITE_URL + "/" if slug == "index" else f"{SITE_URL}/{slug}.html"
+    """Clean URL: home is `/`, everything else is `/slug` with no .html."""
+    return SITE_URL + "/" if slug == "index" else f"{SITE_URL}/{slug}"
 
 
 # --------------------------------------------------------------------------
@@ -122,8 +124,7 @@ def breadcrumb_html(slug):
         if i == len(trail) - 1:
             items.append(f'      <li aria-current="page">{label}</li>')
         else:
-            # Relative filename, matching every other internal link on the site.
-            href = "index.html" if crumb_slug == "index" else f"{crumb_slug}.html"
+            href = "/" if crumb_slug == "index" else f"/{crumb_slug}"
             items.append(f'      <li><a href="{href}">{label}</a></li>')
     return (
         '\n<nav class="breadcrumb" aria-label="Breadcrumb">\n'
@@ -354,7 +355,12 @@ def meta_tags_for(slug, meta):
     description = meta["description"]
     url = page_url(slug)
     image = og_image_url(slug)
-    return f"""<link rel="canonical" href="{url}">
+    robots = (
+        '<meta name="robots" content="noindex">\n'
+        if slug in ("thank-you", "404")
+        else ""
+    )
+    return f"""{robots}<link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="O'Leary Holiday Lighting">
 <meta property="og:title" content="{title}">
@@ -368,21 +374,21 @@ def meta_tags_for(slug, meta):
 {jsonld_for(slug)}"""
 
 NAV_ITEMS = [
-    ("home", "index.html", "Home"),
-    ("services", "services.html", "Services"),
-    ("about", "about-us.html", "About Us"),
-    ("reviews", "reviews.html", "Reviews"),
-    ("areas", "service-areas.html", "Service Areas"),
-    ("faq", "faq.html", "FAQ"),
-    ("contact", "contact.html", "Contact"),
+    ("home", "/", "Home"),
+    ("services", "/services", "Services"),
+    ("about", "/about-us", "About Us"),
+    ("reviews", "/reviews", "Reviews"),
+    ("areas", "/service-areas", "Service Areas"),
+    ("faq", "/faq", "FAQ"),
+    ("contact", "/contact", "Contact"),
 ]
 
 SERVICES = [
-    ("roofline", "roofline-lighting.html", "Roofline Lighting"),
-    ("wreaths", "wreaths.html", "Wreaths"),
-    ("tree-bush", "tree-bush-lighting.html", "Tree &amp; Bush Lighting"),
-    ("ground", "ground-lighting.html", "Ground Lighting"),
-    ("maintenance", "maintenance-storage.html", "Maintenance &amp; Storage"),
+    ("roofline", "/roofline-lighting", "Roofline Lighting"),
+    ("wreaths", "/wreaths", "Wreaths"),
+    ("tree-bush", "/tree-bush-lighting", "Tree &amp; Bush Lighting"),
+    ("ground", "/ground-lighting", "Ground Lighting"),
+    ("maintenance", "/maintenance-storage", "Maintenance &amp; Storage"),
 ]
 
 META_RE = re.compile(r"^<!--meta\s*(\{.*?\})\s*-->\s*", re.S)
@@ -459,7 +465,7 @@ def p_cities(heading="Where we install", image="", badge="", note="", bg="white"
     """The city pill grid with a photo between the two columns."""
     def col(names):
         return "\n".join(
-            f'          <a class="city-pill" href="service-areas.html">{n}</a>'
+            f'          <a class="city-pill" href="/service-areas">{n}</a>'
             for n in names
         )
 
@@ -494,7 +500,7 @@ def p_cta(heading="Ready to see your house lit up?",
     <h2 class="h2">{heading}</h2>
     <p class="cta-banner__line">{line}</p>
     <div class="btn-row btn-row--cta">
-      <a class="btn btn--primary" href="request-a-quote.html">Request a Free Quote</a>
+      <a class="btn btn--primary" href="/request-a-quote">Request a Free Quote</a>
       <a class="btn btn--outline-light" href="tel:9134268386">Call (913) 426-8386</a>
     </div>{foot_html}
   </div>
@@ -566,7 +572,7 @@ def mobile_nav(active_nav, active_service):
                 scls = "is-sub is-active" if skey == active_service else "is-sub"
                 scur = ' aria-current="page"' if skey == active_service else ""
                 out.append(f'    <a class="{scls}" href="{shref}"{scur}>{slabel}</a>')
-    out.append('    <a href="request-a-quote.html">Request a Quote</a>')
+    out.append('    <a href="/request-a-quote">Request a Quote</a>')
     out.append("  </nav>")
     return "\n".join(out)
 
@@ -590,32 +596,46 @@ FEEDBUCKET = """<script>
 SHELL_HEAD_TOP = """<!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD7LE5J4YS"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
+  function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-RD7LE5J4YS');
+  (function () {
+    var started = false;
+    function loadGtag() {
+      if (started) return;
+      started = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RD7LE5J4YS';
+      s.onload = function () { window.__gtagReady = true; };
+      document.head.appendChild(s);
+    }
+    window.__loadGtag = loadGtag;
+    ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
+    window.setTimeout(loadGtag, 3000);
+  })();
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<meta name="description" content="{description}">
+<title>__TITLE__</title>
+<meta name="description" content="__DESCRIPTION__">
 """
 
 SHELL_HEAD_BOTTOM = """
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#C8102E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&amp;family=Archivo:wght@400;600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css">
+<link rel="preload" href="/fonts/bitter-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+__HERO_PRELOAD__
+__STYLESHEETS__
 {feedbucket}
 </head>
 <body>
@@ -624,15 +644,15 @@ SHELL_HEAD_BOTTOM = """
 <!-- ===================================================== HEADER ========= -->
 <header class="site-header">
   <div class="site-header__bar">
-    <a class="site-header__logo" href="index.html">
-      <img src="images/logo.webp" alt="O'Leary Holiday Lighting" width="123" height="81">
+    <a class="site-header__logo" href="/">
+      <img src="/images/logo.webp" alt="O'Leary Holiday Lighting" width="123" height="81">
     </a>
 
 {desktop_nav}
 
     <div class="site-header__cta">
       <a class="site-header__phone" href="tel:9134268386">(913) 426-8386</a>
-      <a class="site-header__quote" href="request-a-quote.html">Request a Quote</a>
+      <a class="site-header__quote" href="/request-a-quote">Request a Quote</a>
     </div>
 
     <button class="nav-burger" type="button" aria-label="Menu" aria-expanded="false">
@@ -652,7 +672,7 @@ SHELL_FOOT = """
   <div class="container">
     <div class="site-footer__grid">
       <div>
-        <img src="images/logo.webp" alt="O'Leary Holiday Lighting" width="161" height="110" loading="lazy">
+        <img src="/images/logo.webp" alt="O'Leary Holiday Lighting" width="161" height="110" loading="lazy">
         <p class="site-footer__blurb">Custom Christmas light installation for Johnson County, Kansas.</p>
         <div class="site-footer__contact">
           <a href="tel:9134268386">(913) 426-8386</a>
@@ -665,55 +685,197 @@ SHELL_FOOT = """
       <div>
         <p class="site-footer__col-title">SERVICES</p>
         <div class="site-footer__links">
-          <a href="roofline-lighting.html">Roofline Lighting</a>
-          <a href="wreaths.html">Wreaths</a>
-          <a href="tree-bush-lighting.html">Tree &amp; Bush Lighting</a>
-          <a href="ground-lighting.html">Ground Lighting</a>
-          <a href="maintenance-storage.html">Maintenance &amp; Storage</a>
+          <a href="/roofline-lighting">Roofline Lighting</a>
+          <a href="/wreaths">Wreaths</a>
+          <a href="/tree-bush-lighting">Tree &amp; Bush Lighting</a>
+          <a href="/ground-lighting">Ground Lighting</a>
+          <a href="/maintenance-storage">Maintenance &amp; Storage</a>
         </div>
       </div>
       <div>
         <p class="site-footer__col-title">COMPANY</p>
         <div class="site-footer__links">
-          <a href="about-us.html">About Us</a>
-          <a href="reviews.html">Reviews</a>
-          <a href="faq.html">FAQ</a>
-          <a href="contact.html">Contact</a>
+          <a href="/about-us">About Us</a>
+          <a href="/reviews">Reviews</a>
+          <a href="/faq">FAQ</a>
+          <a href="/contact">Contact</a>
         </div>
       </div>
       <div>
         <p class="site-footer__col-title">SERVICE AREAS</p>
         <div class="site-footer__links">
-          <a href="service-areas.html">Overland Park</a>
-          <a href="service-areas.html">Olathe</a>
-          <a href="service-areas.html">Leawood</a>
-          <a href="service-areas.html">Lenexa</a>
+          <a href="/service-areas">Overland Park</a>
+          <a href="/service-areas">Olathe</a>
+          <a href="/service-areas">Leawood</a>
+          <a href="/service-areas">Lenexa</a>
         </div>
       </div>
     </div>
     <div class="site-footer__bar">
       <span>&copy; 2026 O'Leary Holiday Lighting LLC &middot; Overland Park, KS</span>
-      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="/privacy-policy">Privacy Policy</a>
     </div>
   </div>
 </footer>
 
-<script src="js/site.js"></script>
+<script src="/js/site.js"></script>
 </body>
 </html>
 """
 
 
-# Cloudflare Turnstile — loaded only on pages that carry a quote form. The
-# widget itself is the <div class="cf-turnstile"> inside each form; the token
-# it produces is verified server-side in send-lead-notification.
-TURNSTILE_SCRIPT = (
-    '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>\n'
+# Cloudflare Turnstile is not in the initial HTML. site.js loads api.js with
+# render=explicit on the first focus or input inside a quote form.
+
+
+HERO_ALT = {
+    "hero-house.webp": "Roofline Christmas lights on a Kansas City home",
+    "roofline-hero.webp": "Roofline lighting",
+    "services-hero.webp": "Holiday lighting services",
+    "wreaths-hero.webp": "Christmas wreaths",
+    "tree-bush-hero.webp": "Tree and bush lighting",
+    "ground-hero.webp": "Ground lighting",
+    "maintenance-hero.webp": "Maintenance and storage",
+}
+
+BG_DIV_RE = re.compile(
+    r"""<div class="([^"]+)" style="([^"]*background-image:url\('(?:/)?images/([^']+)'\)[^"]*)"\s*>\s*</div>"""
 )
 
 
-def with_turnstile(foot):
-    return foot.replace('<script src="js/site.js">', TURNSTILE_SCRIPT + '<script src="js/site.js">', 1)
+def webp_size(path):
+    """Width and height from a webp header. No image library required at build."""
+    data = path.read_bytes()[:64]
+    if len(data) < 30 or data[0:4] != b"RIFF" or data[8:12] != b"WEBP":
+        return None
+    kind = data[12:16]
+    if kind == b"VP8X" and len(data) >= 30:
+        w = 1 + int.from_bytes(data[24:27], "little")
+        h = 1 + int.from_bytes(data[27:30], "little")
+        return w, h
+    if kind == b"VP8 " and len(data) >= 30:
+        w, h = struct.unpack_from("<HH", data, 26)
+        return w & 0x3FFF, h & 0x3FFF
+    if kind == b"VP8L" and len(data) >= 25:
+        b0 = int.from_bytes(data[21:25], "little")
+        return (b0 & 0x3FFF) + 1, ((b0 >> 14) & 0x3FFF) + 1
+    return None
+
+
+def image_dims(filename):
+    path = OUT / "images" / filename
+    if not path.is_file():
+        return None
+    return webp_size(path)
+
+
+def hero_preload(filename):
+    if not filename:
+        return ""
+    stem = filename.rsplit(".", 1)[0]
+    full = image_dims(filename)
+    mobile_name = f"{stem}-800.webp"
+    mobile = image_dims(mobile_name)
+    full_w = full[0] if full else 1600
+    if mobile:
+        srcset = f"/images/{mobile_name} {mobile[0]}w, /images/{filename} {full_w}w"
+        href = f"/images/{mobile_name}"
+    else:
+        srcset = f"/images/{filename} {full_w}w"
+        href = f"/images/{filename}"
+    return (
+        f'<link rel="preload" as="image" href="{href}" imagesrcset="{srcset}" '
+        f'imagesizes="100vw" fetchpriority="high">'
+    )
+
+
+def stylesheets(slug):
+    # Per-page above-the-fold (and used) CSS, generated into site/css/critical/.
+    # site.css still loads, non-blocking, so anything not inlined still applies.
+    critical_path = OUT / "css" / "critical" / f"{slug}.css"
+    if critical_path.is_file() and critical_path.stat().st_size > 0:
+        critical = critical_path.read_text().strip()
+        return (
+            "<style>\n" + critical + "\n</style>\n"
+            '<link rel="stylesheet" href="/css/site.css" media="print" onload="this.media=\'all\'">\n'
+            '<noscript><link rel="stylesheet" href="/css/site.css"></noscript>'
+        )
+    return '<link rel="stylesheet" href="/css/site.css">'
+
+
+def transform_backgrounds(html):
+    """Hero LCP images become preloaded <img>s. Other CSS backgrounds become lazy <img>s."""
+
+    def repl(match):
+        classes, style, filename = match.group(1), match.group(2), match.group(3)
+        dims = image_dims(filename) or (None, None)
+        wh = ""
+        if dims[0] and dims[1]:
+            wh = f' width="{dims[0]}" height="{dims[1]}"'
+        pos = re.search(r"background-position:\s*([^;\"]+)", style)
+        pos_style = ""
+        if pos and pos.group(1).strip() not in ("center", "center center"):
+            pos_style = f' style="object-position:{pos.group(1).strip()}"'
+        src = f"/images/{filename}"
+        if "hero__bg" in classes.split():
+            stem = filename.rsplit(".", 1)[0]
+            mobile_name = f"{stem}-800.webp"
+            mobile = image_dims(mobile_name)
+            full_w = dims[0] or 1600
+            if mobile:
+                srcset = f' srcset="/images/{mobile_name} {mobile[0]}w, {src} {full_w}w" sizes="100vw"'
+            else:
+                srcset = ""
+            alt = HERO_ALT.get(filename, "")
+            return (
+                f'<img class="hero__bg" src="{src}"{srcset} fetchpriority="high" '
+                f'decoding="async"{wh} alt="{alt}">'
+            )
+        return (
+            f'<div class="{classes}">'
+            f'<img src="{src}" alt="" loading="lazy" decoding="async"{wh}{pos_style}>'
+            f"</div>"
+        )
+
+    return BG_DIV_RE.sub(repl, html)
+
+
+def root_relative(html):
+    def repl_attr(match):
+        attr, quote, url = match.group(1), match.group(2), match.group(3)
+        if url.startswith(("#", "mailto:", "tel:", "data:", "http://", "https://", "//")):
+            return match.group(0)
+        if url.startswith("/"):
+            return match.group(0)
+        if attr == "href" and url.endswith(".html"):
+            slug = url[: -len(".html")]
+            url = "/" if slug == "index" else f"/{slug}"
+        else:
+            url = "/" + url
+        return f"{attr}={quote}{url}{quote}"
+
+    html = re.sub(r"\b(href|src)=([\'\"])([^\'\"]+)\2", repl_attr, html)
+    html = html.replace("url('images/", "url('/images/")
+    html = html.replace('url("images/', 'url("/images/')
+    return html
+
+
+def lazy_below_fold(html):
+    """loading=lazy and dimensions on content images after the header."""
+    head, sep, rest = html.partition("</header>")
+    if not sep:
+        return html
+
+    def repl(match):
+        tag = match.group(0)
+        if "hero__bg" in tag or "fetchpriority=" in tag:
+            return tag
+        if "loading=" not in tag:
+            tag = tag.replace("<img ", '<img loading="lazy" ', 1)
+        return tag
+
+    rest = re.sub(r"<img\b[^>]*>", repl, rest)
+    return head + sep + rest
 
 
 def build():
@@ -731,8 +893,15 @@ def build():
         body = expand_partials(raw[match.end():].rstrip(), frag.name) + "\n"
         slug = meta["slug"]
 
+        hero = re.search(
+            r"""hero__bg" style="background-image:url\('(?:/)?images/([^']+)'\)""",
+            body,
+        )
+        hero_file = hero.group(1) if hero else None
         page = (
-            SHELL_HEAD_TOP.format(title=meta["title"], description=meta["description"])
+            SHELL_HEAD_TOP.replace("__TITLE__", meta["title"]).replace(
+                "__DESCRIPTION__", meta["description"]
+            )
             + meta_tags_for(slug, meta)
             + "\n"
             + SHELL_HEAD_BOTTOM.format(
@@ -740,10 +909,15 @@ def build():
                 desktop_nav=desktop_nav(meta.get("nav", ""), meta.get("service", "")),
                 mobile_nav=mobile_nav(meta.get("nav", ""), meta.get("service", "")),
             )
+            .replace("__HERO_PRELOAD__", hero_preload(hero_file))
+            .replace("__STYLESHEETS__", stylesheets(slug))
             + breadcrumb_html(slug)
             + body
-            + (with_turnstile(SHELL_FOOT) if "data-quote-form" in body else SHELL_FOOT)
+            + SHELL_FOOT
         )
+        page = transform_backgrounds(page)
+        page = root_relative(page)
+        page = lazy_below_fold(page)
         target = OUT / f"{slug}.html"
         target.write_text(page)
         print(f"  wrote {target.relative_to(ROOT)}")
@@ -751,11 +925,12 @@ def build():
 
     write_sitemap(slugs)
     write_robots()
+    return slugs
 
 
 def write_sitemap(slugs):
     urls = [
-        SITE_URL + "/" if slug == "index" else f"{SITE_URL}/{slug}.html"
+        page_url(slug)
         for slug in slugs
         if slug not in SITEMAP_EXCLUDE
     ]
@@ -783,26 +958,36 @@ def write_robots():
     print(f"  wrote {target.relative_to(ROOT)}")
 
 
-# Both Netlify and Cloudflare Pages read a plain-text `_redirects` file
-# from the publish root, in the same simple "from to status" syntax. Every
-# real page lives at an explicit `/slug.html` URL (see the module
-# docstring), so any extensionless path 404s unless it's listed here.
+# Netlify reads `_redirects` from the publish root. Pages stay at `/slug.html`
+# because that is what already serves `/slug` with a 200 (pretty URLs) and
+# 301s `/slug/` to `/slug`. A 200 rewrite from `/slug` back to `/slug.html`
+# loops: the host then redirects the html path to the clean path again.
+# `301!` forces `/slug.html` onto `/slug` even though the file exists.
+# 404.html is not redirected; Netlify needs that file at the publish root.
 #
-# - "/contact" -> "/contact.html": Search Console reported this exact path
-#   404ing, presumably from an old external link or a stale indexed URL
-#   that never carried the extension. 301 it to the real page.
-# - "/hibu-video-splash" -> "/": leftover URL from the site's previous
-#   provider (Hibu), from before this static rebuild. It has no equivalent
-#   page here, so send it to the homepage instead of leaving it a dead
-#   link Google keeps re-checking.
-REDIRECTS = [
-    ("/contact", "/contact.html", 301),
-    ("/hibu-video-splash", "/", 301),
+# Old-site paths that still get impressions 301 onto the current page.
+# `/hibu-video-splash` is a leftover from the previous provider.
+OLD_REDIRECTS = [
+    ("/about", "/about-us", "301"),
+    ("/faqs", "/faq", "301"),
+    ("/gallery", "/reviews", "301"),
+    ("/request-quote", "/request-a-quote", "301"),
+    ("/holiday-lighting-installation", "/services", "301"),
+    ("/residential-holiday-lights", "/roofline-lighting", "301"),
+    ("/custom-design-and-installation", "/services", "301"),
+    ("/maintenance-and-take-down", "/maintenance-storage", "301"),
+    ("/hibu-video-splash", "/", "301"),
 ]
 
 
-def write_redirects():
-    text = "".join(f"{src}  {dest}  {code}\n" for src, dest, code in REDIRECTS)
+def write_redirects(slugs):
+    lines = [f"{src}  {dest}  {code}" for src, dest, code in OLD_REDIRECTS]
+    lines.append("/index.html  /  301!")
+    for slug in slugs:
+        if slug in ("index", "404"):
+            continue
+        lines.append(f"/{slug}.html  /{slug}  301!")
+    text = "\n".join(lines) + "\n"
     target = OUT / "_redirects"
     target.write_text(text)
     print(f"  wrote {target.relative_to(ROOT)}")
@@ -810,5 +995,5 @@ def write_redirects():
 
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
-    build()
-    write_redirects()
+    slugs = build()
+    write_redirects(slugs)
